@@ -10,7 +10,6 @@ import idat.edu.pe.models.Alumno;
 import idat.edu.pe.models.Docente;
 import idat.edu.pe.models.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

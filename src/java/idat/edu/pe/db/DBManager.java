@@ -5,7 +5,6 @@
  */
 package idat.edu.pe.db;
 
-import com.sun.mail.smtp.SMTPAddressFailedException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
