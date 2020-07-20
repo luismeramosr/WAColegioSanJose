@@ -1,0 +1,18 @@
+SMAP
+home_jsp.java
+JSP
+*S JSP
+*F
++ 0 home.jsp
+home.jsp
++ 1 scriptstyle.jsp
+scriptstyle.jsp
++ 2 layout.jsp
+layout.jsp
+*L
+1,7:50
+1#1,5:57
+7#0,4:62
+1#2,30:66
+10#0,4:95
+*E
