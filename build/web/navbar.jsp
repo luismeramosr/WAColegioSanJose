@@ -17,8 +17,6 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="ListarCursosController">Curso</a>
                     <a class="dropdown-item" href="#">Alumno</a>
-                    <a class="dropdown-item" href="ListarCursosController">Curso</a>
-                    <a class="dropdown-item" href="#">Alumno</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="ListaAjaxCursoController">Curso con Ajax</a>
                 </div>
