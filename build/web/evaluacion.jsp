@@ -1,3 +1,9 @@
+<%-- 
+    Document   : evaluacion
+    Created on : Jul 21, 2020, 3:33:13 PM
+    Author     : luisr
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -6,14 +12,7 @@
         <%@include file="scriptstyle.jsp" %>
     </head>
     <body>
-        <% 
-            if(session.getAttribute("user")!=null){                
-        %>
         <%@include file="navbar.jsp" %>
-        <% 
-        }else{
-            response.sendRedirect("index.jsp");
-        }
-        %>
+        
     </body>
 </html>

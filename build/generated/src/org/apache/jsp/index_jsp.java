@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 
-public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -47,11 +47,12 @@ public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
       out.write("\n");
+      out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        <title>JSP Page</title>\n");
       out.write("        ");
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
@@ -60,9 +61,43 @@ public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<script src=\"Scripts/bootstrap/bootstrap.js\" type=\"text/javascript\"></script>\n");
       out.write("<title>Colegio San Jose</title>\n");
       out.write("\n");
+      out.write("        <link href=\"Styles/login.css\" rel=\"stylesheet\" type=\"text/css\"/>\n");
+      out.write("        <script src=\"https://cdn.jsdelivr.net/npm/vue/dist/vue.js\"></script>\n");
+      out.write("        <script src=\"Scripts/jsweb/login.js\" type=\"text/javascript\"></script>        \n");
       out.write("    </head>\n");
       out.write("    <body>\n");
-      out.write("        \n");
+      out.write("        <div class=\"card mx-auto\">\n");
+      out.write("            <div class=\"card-header\">\n");
+      out.write("                Iniciar sesión\n");
+      out.write("            </div>\n");
+      out.write("            <div class=\"card-body\">\n");
+      out.write("                <form>\n");
+      out.write("                    <div class=\"form-group\">\n");
+      out.write("                        <label for=\"txtUser\">Código</label>\n");
+      out.write("                        <input type=\"text\" class=\"form-control\" id=\"txtUser\" name=\"txtUser\">\n");
+      out.write("                    </div>\n");
+      out.write("                    <div class=\"form-group\">\n");
+      out.write("                        <label for=\"txtPassword\">Contraseña</label>\n");
+      out.write("                        <input type=\"password\" class=\"form-control\" id=\"txtPassword\" name=\"txtPassword\">\n");
+      out.write("                    </div>\n");
+      out.write("                    ");
+
+                        if (request.getAttribute("result") != null) {
+                            String result = request.getAttribute("result").toString();
+                    
+      out.write("\n");
+      out.write("                    <p id=\"emailHelp\" class=\"form-text\">");
+      out.print(result);
+      out.write("</p>\n");
+      out.write("                    ");
+
+                        }
+                    
+      out.write("\n");
+      out.write("                    <button type=\"button\" class=\"btn btn-primary\" id=\"btnTest\">Ingresar</button>\n");
+      out.write("                </form>                    \n");
+      out.write("            </div>\n");
+      out.write("        </div>        \n");
       out.write("    </body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {
