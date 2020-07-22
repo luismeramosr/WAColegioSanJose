@@ -10,22 +10,19 @@ package idat.edu.pe.models;
  * @author luisr
  */
 public class Evaluacion {
-    public String id;
-    public String name;
-    public String last_name;
-    public String something;
-
-    public Evaluacion(String id, String name, String last_name, String something) {
-        this.id = id;
-        this.name = name;
-        this.last_name = last_name;
-        this.something = something;
-    }
+    public String idEvaluacion;
+    public String Seccion;
+    public String Curso;
+    public String data;
 
     public Evaluacion() {
     }
-    
-    
-    
-    
+
+    public Evaluacion(String idEvaluacion, String Seccion, String Curso, String data) {
+        this.idEvaluacion = idEvaluacion;
+        this.Seccion = Seccion;
+        this.Curso = Curso;
+        this.data = data;
+    }   
+        
 }

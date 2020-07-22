@@ -11,22 +11,17 @@ package idat.edu.pe.models;
  */
 public class Alumno {
     public String idAlumno;
-    public String apellido;
-    public String nombre;
-    public String idEsp;
-    public String proce;
+    public String Seccion;
+    public String Usuario;
     
-    public Alumno(String IdAlumno, String ApeAlumno, String NomAlumno, String Idesp, String PROCE) {
-        this.idAlumno = IdAlumno;
-        this.apellido = ApeAlumno;
-        this.nombre = NomAlumno;
-        this.idEsp = Idesp;
-        this.proce = PROCE;
-    }
-
     public Alumno() {
         
     }
-    
-    
+
+    public Alumno(String idAlumno, String Seccion, String Usuario) {
+        this.idAlumno = idAlumno;
+        this.Seccion = Seccion;
+        this.Usuario = Usuario;
+    }  
+        
 }

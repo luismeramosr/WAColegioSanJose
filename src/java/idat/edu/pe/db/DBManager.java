@@ -89,7 +89,7 @@ public class DBManager {
      * tengan por atributos los nombres de las columnas de la BD (en el mismo
      * orden y con los mismos nombres).
      *
-     * @param <Gen> Es la clase que utilizaremos como "Molde", sirve como guía
+     * @param <T> Es la clase que utilizaremos como "Molde", sirve como guía
      * para crear una lista de objetos de dicha clase y una instancia vacía de
      * dicha clase. (Este parámetro es obtenido implícitamente del siguiente).
      * @param object Es el parámetro del cual extraeremos la clase y sus
@@ -98,11 +98,11 @@ public class DBManager {
      * @return objectList El resultado de esta función es una lista de objetos
      * que contienen la información obtenida de la tabla.
      */
-    public <Gen> List<Gen> readTable(Gen object) {
+    public <T> List<T> readTable(Class TClass) {
 
-        List<Gen> tempList = new ArrayList<>();
-        Field[] attributes = object.getClass().getFields();
-        String querySQL = "select * from " + object.getClass().getSimpleName() + ";";
+        List<T> tempList = new ArrayList<>();
+        Field[] attributes = TClass.getFields();
+        String querySQL = "select * from " + TClass.getSimpleName() + ";";
 
         open();
 
@@ -112,7 +112,7 @@ public class DBManager {
             ResultSet result = smt.executeQuery(querySQL);
 
             while (result.next()) {
-                Gen newObject = (Gen) object.getClass().newInstance();
+                T newObject = (T) TClass.newInstance();
                 for (Field attribute : attributes) {
                     attribute.set(newObject, result.getString(attribute.getName()));
                 }
@@ -134,7 +134,7 @@ public class DBManager {
      * parámetro tenga como atributos los nombres de las columnas de la BD (en
      * el mismo orden y con los mismos nombres).
      *
-     * @param <Gen> Es la clase que utilizaremos como "Molde", sirve como guía
+     * @param <T> Es la clase que utilizaremos como "Molde", sirve como guía
      * para crear una lista de objetos de dicha clase y una instancia vacía de
      * dicha clase. (Este parámetro es obtenido implícitamente del siguiente).
      * @param object Es el parámetro del cual extraeremos la clase y sus
@@ -145,13 +145,13 @@ public class DBManager {
      * @return newObject Retorna un objeto que corresponde a la fila obtenida de
      * la BD.
      */
-    public <Gen> Gen readRow(Gen object, String objectID) {
+    public <T> T readRow(Class genClass, String objectID) {
 
-        Gen newObject = null;
+        T newObject = null;
 
         try {
-            Field[] attributes = object.getClass().getFields();
-            String querySQL = "select * from " + object.getClass().getSimpleName()
+            Field[] attributes = genClass.getFields();
+            String querySQL = "select * from " + genClass.getSimpleName()
                     + " where " + attributes[0].getName() + "='"
                     + objectID + "';";
 
@@ -161,7 +161,7 @@ public class DBManager {
             ResultSet result = smt.executeQuery(querySQL);
 
             while (result.next()) {
-                newObject = (Gen) object.getClass().newInstance();
+                newObject = (T) genClass.newInstance();
                 for (Field attribute : attributes) {
                     attribute.set(newObject, result.getString(attribute.getName()));
                 }
@@ -177,18 +177,18 @@ public class DBManager {
 
     /**
      *
-     * @param <Gen> Es la clase que utilizaremos como "Molde", sirve como guía
+     * @param <T> Es la clase que utilizaremos como "Molde", sirve como guía
      * para crear una lista de objetos de dicha clase y una instancia vacía de
      * dicha clase. (Este parámetro es obtenido implícitamente del siguiente).
      * @param object Es el parámetro del cual extraeremos la clase y sus
      * propiedades, de aquí se infiere el tipo de dato (clase) con el que vamos
      * a trabajar.
      */
-    public <Gen> void deleteRow(Gen object) {
+    public <T> void deleteRow(Class TClass) {
         try {
-            Field[] attributes = object.getClass().getFields();
-            String querySQL = "delete from " + object.getClass().getSimpleName() + " where "
-                    + attributes[0].getName() + "='" + attributes[0].get(object) + "';";
+            Field[] attributes = TClass.getFields();
+            String querySQL = "delete from " + TClass.getSimpleName() + " where "
+                    + attributes[0].getName() + "='" + attributes[0].get(TClass) + "';";
 
             open();
             Statement smt = this.conn.createStatement();
@@ -202,12 +202,12 @@ public class DBManager {
 
     /**
      *
-     * @param <Gen>
+     * @param <T>
      * @param object
      */
-    public <Gen> void insertRow(Gen object) {
-        Field[] attributes = object.getClass().getFields();
-        String tb = object.getClass().getSimpleName();
+    public <T> void insertRow(Class TClass) {
+        Field[] attributes = TClass.getFields();
+        String tb = TClass.getSimpleName();
         String query = "insert into " + tb + "(";
         for (Field field : attributes) {
             try {
@@ -221,7 +221,7 @@ public class DBManager {
         query += ") values (";
         for (Field field : attributes) {
             try {
-                query = query + "'" + field.get(object) + "',";
+                query = query + "'" + field.get(TClass) + "',";
                 //bool
             } catch (IllegalArgumentException ex) {
                 Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -244,16 +244,16 @@ public class DBManager {
 
     /**
      *
-     * @param <Gen>
+     * @param <T>
      * @param object
      */
-    public <Gen> void updateRow(Gen object){
-        Field[] attributes= object.getClass().getFields();
-        String tb = object.getClass().getSimpleName();
+    public <T> void updateRow(Class TClass){
+        Field[] attributes= TClass.getFields();
+        String tb = TClass.getSimpleName();
         String query ="update "+tb+" set " ;
         for(Field field: attributes){
             try {
-                query = query + field.getName()+" = '"+field.get(object)+"',";
+                query = query + field.getName()+" = '"+field.get(TClass)+"',";
                 
             } catch (IllegalArgumentException ex) {
                 Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -264,7 +264,7 @@ public class DBManager {
         query=query.substring(0,query.length()-1);
         query += " where ";
             try {
-                query += attributes[0].getName() + "='" + attributes[0].get(object).toString()+"'";
+                query += attributes[0].getName() + "='" + attributes[0].get(TClass).toString()+"'";
             } catch (IllegalArgumentException | IllegalAccessException ex) {
                 Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -94,7 +94,11 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
                         }
                     
       out.write("\n");
+<<<<<<< HEAD
       out.write("                    <button type=\"button\" class=\"btn btn-primary\" id=\"btnTest\" >Ingresar</button>\n");
+=======
+      out.write("                    <button type=\"button\" class=\"btn btn-primary\" id=\"btnTest\">Ingresar</button>\n");
+>>>>>>> pr/4
       out.write("                </form>                    \n");
       out.write("            </div>\n");
       out.write("        </div>        \n");

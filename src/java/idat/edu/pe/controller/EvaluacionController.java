@@ -5,50 +5,45 @@
  */
 package idat.edu.pe.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
+import idat.edu.pe.db.DBManager;
 import idat.edu.pe.models.Evaluacion;
-import idat.edu.pe.models.Usuario;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import jdk.nashorn.internal.parser.JSONParser;
 
 /**
  *
  * @author luisr
  */
-@WebServlet(name = "Test", urlPatterns = {"/api"})
-public class Test extends HttpServlet {
-
+@WebServlet(name = "EvaluacionController", urlPatterns = {"/EvaluacionController"})
+public class EvaluacionController extends HttpServlet {
+    
+    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
+            
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        Gson jo = new Gson();
-//        Usuario = 
-//        response.setHeader("Content-Type", "application/json");
-//        System.out.println(request.getQueryString());
-//        PrintWriter pw = response.getWriter();
-//        pw.println(jo.toJson(user1));
-//        pw.close();
+        
+        Evaluacion ev = db.readRow(Evaluacion.class, "1111111");
+        if(ev!=null)
+            System.out.println(ev.idEvaluacion);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {   
-        Gson gson = new Gson();
-        JsonObject jo = new JsonObject();
-        jo = gson.fromJson(request.getReader(), JsonObject.class);
-        System.out.println(jo.toString());
+            throws ServletException, IOException {
+        
     }
-   
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";
