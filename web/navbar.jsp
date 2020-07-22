@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+ <%@include file="scriptstyle.jsp" %>
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
     <a class="navbar-brand" href="#">AppIDAT</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,8 +16,8 @@
                     Mantenimiento
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="ListarCursosController">Curso</a>
-                    <a class="dropdown-item" href="#">Alumno</a>
+                    <a class="dropdown-item" href="ListaCursoController">Lista de Cursos</a>
+                    <a class="dropdown-item" href="Evaluacion_Alu.jsp">pregunta1</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="ListaAjaxCursoController">Curso con Ajax</a>
                 </div>

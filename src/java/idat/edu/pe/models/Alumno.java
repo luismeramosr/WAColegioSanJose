@@ -24,14 +24,6 @@ public class Alumno {
         this.proce = PROCE;
     }
 
-//    public Alumno(String idAlumno, String nombre, String apellido, String edad, String procedimiento) {
-//        this.IdAlumno = idAlumno;
-//        this.ApeAlumno = nombre;
-//        this.NomAlumno = apellido;
-//        this.Idesp = edad;
-//        this.PROCE = procedimiento;
-//    }
-    
     public Alumno() {
         
     }

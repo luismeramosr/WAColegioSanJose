@@ -58,7 +58,7 @@ public class LoginController extends HttpServlet {
                 
     }
     
-    DBManager db = new DBManager("localhost", "root", "123", "test");
+    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
     private boolean login(String user, String password) {                
         Usuario newUser = db.readRow(new Usuario(), user);
         

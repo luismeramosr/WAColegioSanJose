@@ -128,3 +128,7 @@ function speedTest() {
     
     return {"jqueryTime": jqueryTime, "fetchTime": fetchTime};
 }
+
+function redirect(url) {
+    window.location.href = url;
+}

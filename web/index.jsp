@@ -37,7 +37,7 @@
                     <%
                         }
                     %>
-                    <button type="button" class="btn btn-primary" id="btnTest">Ingresar</button>
+                    <button type="button" class="btn btn-primary" id="btnTest" >Ingresar</button>
                 </form>                    
             </div>
         </div>        
