@@ -1,12 +1,12 @@
 $(document).on("click", "#btnTest", function() {   
     let user = document.getElementById("txtUser");
     let password = document.getElementById("txtPassword");
-    
+
     if(isOK(user, password)){
         let formData = {"user": user.value, "password": password.value};
-        post('/WAPACSJ/LoginController', formData);
+        post('/WAPACSJ/LoginController', formData);      
+        $("#errPassword").text("Validando...");
     }
-
 });
 
 function isOK() {    
@@ -16,12 +16,12 @@ function isOK() {
     $("#errPassword").text("");
     $("#errLogin").text("");
     
-    if(arguments[0].value == "") {
+    if(arguments[0].value === "") {
         isOk = false;
         $("#errUser").text("Debe ingresar su código");
     }
     
-    if(arguments[1].value == ""){
+    if(arguments[1].value === ""){
         isOk = false;
         $("#errPassword").text("Debe ingresar su contraseña");       
     }
@@ -39,7 +39,8 @@ function post(url, jsonData) {
     }).then((response) => {
         if(response.status === 200)
             redirect('home.jsp');
-        else if(response.status === 404){
+        else if(response.status === 500){
+            $("#errPassword").text("");
             $("#errLogin").show();
             $("#errLogin").text(`El usuario ${jsonData['user']}, ` +
                                 `con contraseña ${jsonData['password']} ` +

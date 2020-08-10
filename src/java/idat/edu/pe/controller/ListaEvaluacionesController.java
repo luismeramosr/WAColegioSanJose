@@ -8,6 +8,8 @@ package idat.edu.pe.controller;
 import idat.edu.pe.db.DBManager;
 import idat.edu.pe.models.Alumno;
 import idat.edu.pe.models.Curso;
+import idat.edu.pe.models.Evaluacion;
+import idat.edu.pe.models.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -17,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -24,19 +27,26 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ListaEvaluacionesController", urlPatterns = {"/ListaEvaluacionesController"})
 public class ListaEvaluacionesController extends HttpServlet {
-    DBManager db = new DBManager("localhost","3306","root","123","bdnotas");
+    
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    HttpSession session;
+    RequestDispatcher dispatcher;
+            
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String idcurso = request.getParameter("idcurso");
-        if(idcurso != null){
-            List<Alumno> lstalu = db.readTable(new Alumno());
-            request.setAttribute("lstalu", lstalu);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaEvaluaciones.jsp");
-            dispatcher.forward(request, response);
         
-        }
+        session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("userData");
+        
+        
+        if (user.isDocente()) {
+            List<Evaluacion> evaluaciones = db.readTable(Evaluacion.class, user.idUsuario, 0);
+            request.setAttribute("evaluaciones", evaluaciones);
+            dispatcher = request.getRequestDispatcher("/ListaEvaluaciones.jsp");
+            dispatcher.forward(request, response);
+        }        
+                
         
     }
 

@@ -6,7 +6,9 @@
 package idat.edu.pe.controller;
 
 import idat.edu.pe.db.DBManager;
+import idat.edu.pe.models.Alumno;
 import idat.edu.pe.models.Curso;
+import idat.edu.pe.models.Docente;
 import idat.edu.pe.models.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,27 +28,30 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ListaCursoController", urlPatterns = {"/ListaCursoController"})
 public class ListaCursoController extends HttpServlet {
 
-    DBManager db = new DBManager("localhost","3306","root","123","apolloma_Colegio");
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    HttpSession session;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          
-        Usuario user =(Usuario)new Usuario();
-        //if(EsAlu(user)){
-            List<Curso> lstcursos = db.readTable(new Curso());
+        session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("userData");
+        
+        if(user.isAlumno()) {
+            Alumno alu = (Alumno) session.getAttribute("user");
+            List<Curso> lstcursos = db.readTable(Curso.class, alu.Seccion, 1);
             request.setAttribute("lstcursos", lstcursos);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursosAlu.jsp");
-            dispatcher.forward(request, response);
-            
-        //}
-    }
-    private boolean EsAlu(Usuario user){
-        if(user.tipo.equals("A"))
-            return true;
-        else
-            return false;
-    }
-    
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
+            dispatcher.forward(request, response);            
+        }else if(user.isDocente()) {
+            Docente doc = (Docente) session.getAttribute("user");
+            List<Curso> lstcursos = db.readTable(Curso.class, doc.idDocente, 2);
+            request.setAttribute("lstcursos", lstcursos);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
+            dispatcher.forward(request, response);  
+        }
+    }    
 
     /**
      * Handles the HTTP <code>POST</code> method.

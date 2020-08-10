@@ -22,15 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "EvaluacionController", urlPatterns = {"/EvaluacionController"})
 public class EvaluacionController extends HttpServlet {
     
-    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
             
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        Evaluacion ev = db.readRow(Evaluacion.class, "1111111");
+        /*Evaluacion ev = db.readRow(Evaluacion.class, "1111111");
         if(ev!=null)
-            System.out.println(ev.idEvaluacion);
+            System.out.println(ev.idEvaluacion);*/
     }
 
     @Override

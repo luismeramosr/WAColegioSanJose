@@ -11,9 +11,11 @@ package idat.edu.pe.models;
  */
 public class Curso {
     public String idCurso;
-    public String nombre;
+    public String Seccion;    
     public String Docente;
-    public String Seccion;
+    public String nombre;
+    
+    
 
     public Curso(String idCurso, String nombre, String Docente, String Seccion) {
         this.idCurso = idCurso;

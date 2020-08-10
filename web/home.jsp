@@ -1,3 +1,4 @@
+<%@page import="idat.edu.pe.models.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -7,9 +8,13 @@
     </head>
     <body>
         <% 
-            if(session.getAttribute("user")!=null){                
+            if(session.getAttribute("user")!=null){
+            Usuario user = (Usuario) session.getAttribute("userData");
         %>
         <%@include file="navbar.jsp" %>
+        <h1>
+            Hola <%=user.apellidos+" "+user.nombre%>
+        </h1>
         <% 
         }else{
             response.sendRedirect("index.jsp");

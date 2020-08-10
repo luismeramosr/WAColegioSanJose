@@ -11,7 +11,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="scriptstyle.jsp" %>
         <link href="Styles/login.css" rel="stylesheet" type="text/css"/>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="Scripts/jsweb/login.js" type="text/javascript"></script>
     </head>
     <body>        

@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="scriptstyle.jsp" %>
     </head>
     <body>
         <%@include file="navbar.jsp" %>
@@ -41,8 +41,8 @@
                             <th><%=cur.idCurso %></th>
                             <td><%=cur.nombre %></td>
                             
-                            <td><a href="ListaEvaluacionesController?idcurso=<%=cur.idCurso%>"
-                                   class="btn btn-info">Ingresar</a></td>
+                            <td><a href="ListaEvaluacionesController?idCurso=<%=cur.idCurso%>"
+                                   class="btn btn-info">Ver evaluaciones</a></td>
                         </tr>
                         <%  }
                         %>

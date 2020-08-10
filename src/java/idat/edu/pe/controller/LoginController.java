@@ -13,6 +13,7 @@ import idat.edu.pe.models.Docente;
 import idat.edu.pe.models.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +45,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
         jo = gson.fromJson(request.getReader(), JsonObject.class);
         String user = jo.get("user").getAsString();
         String password = jo.get("password").getAsString();
@@ -55,40 +56,31 @@ public class LoginController extends HttpServlet {
             response.setStatus(200);
         else
             // User was not found or doesn't
-            response.setStatus(404);            
+            response.setStatus(500);            
         
     }
     
-    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    
     private boolean login(String user, String password) {                
-        Usuario newUser = db.readRow(Usuario.class, user);
+        Usuario newUser = db.readRow(Usuario.class, user, 0);
         
         if (newUser!=null) {
-            if(isAlumno(newUser) && newUser.password.equals(password)) {
-                Alumno alu = db.readRow(Alumno.class, user);
+            if(newUser.isAlumno() && newUser.password.equals(password)) {
+                Alumno alu = db.readRow(Alumno.class, user, 0);              
+                session.setAttribute("userData", newUser);
                 session.setAttribute("user", alu);
                 return true;
-            }else if(isDocente(newUser) && newUser.password.equals(password)) {
-                Docente doc = db.readRow(Docente.class, user);
+            }else if(newUser.isDocente() && newUser.password.equals(password)) {
+                Docente doc = db.readRow(Docente.class, user, 0);
+                session.setAttribute("userData", newUser);
                 session.setAttribute("user", doc);
                 return true;
             }else return false;
         }else return false;       
                 
-    }
+    }  
     
-    private boolean isAlumno(Usuario user) {
-        if(user.tipo.equals("A"))
-            return true;
-        else return false;
-    }
-    
-    private boolean isDocente(Usuario user) {
-        if(user.tipo.equals("D"))
-            return true;
-        else return false;
-    }
-
     /**
      * Returns a short description of the servlet.
      *

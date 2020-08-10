@@ -11,9 +11,14 @@ package idat.edu.pe.models;
  */
 public class Docente {
     public String idDocente;
-    public String nombre;
-    public String apellido;
-    public String edad;
-    public String dni;
-    public String curso;
+    public String Usuario;
+
+    public Docente() {
+    }
+
+    public Docente(String idDocente, String Usuario) {
+        this.idDocente = idDocente;
+        this.Usuario = Usuario;
+    }   
+    
 }

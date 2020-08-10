@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package idat.edu.pe.db;
 
-import com.sun.mail.smtp.SMTPAddressFailedException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,8 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Clase para la comunicación con la base de datos.
- *
+ * Clase para la comunicación con la base de datos (intento de orm xd)
+ * usando funciones y objetos genéricos para manipular la base de datos con poo
+ * aun esta en prueba y es lo que estoy creando para mi proyecto del curso.
  * @author luisr
  */
 public class DBManager {
@@ -82,6 +77,39 @@ public class DBManager {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
         }
     }
+    
+    private void MapValueToType(Field attribute, ResultSet reader,Object newObject){
+        
+        try{
+            if (attribute.getType().equals(int.class))
+                attribute.set(newObject, reader.getInt(attribute.getName()));
+            else if (attribute.getType().equals(String.class))
+                attribute.set(newObject, reader.getString(attribute.getName()));           
+        }catch (SQLException | IllegalAccessException | IllegalArgumentException err) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+        }        
+    }
+    
+    private <T> String CreateSQLFromType(String actionType,Field attribute, T obj) {
+        try{
+            if(actionType.equals("update")) {
+                if (attribute.getType().equals(int.class))
+                return attribute.getName()+"="+attribute.get(obj)+",";
+                else if(attribute.getType().equals(String.class))
+                    return attribute.getName()+"='"+attribute.get(obj)+"',";
+                else return "";
+            }else if(actionType.equals("insert")){
+                if (attribute.getType().equals(int.class))
+                return attribute.get(obj)+",";
+                else if(attribute.getType().equals(String.class))
+                    return "'"+attribute.get(obj)+"',";
+                else return "";
+            }
+        }catch (IllegalArgumentException | IllegalAccessException err){
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+        }
+        return "";
+    }
 
     /**
      * Este es un método genérico el cual retorna una lista de objetos que
@@ -114,7 +142,7 @@ public class DBManager {
             while (result.next()) {
                 T newObject = (T) TClass.newInstance();
                 for (Field attribute : attributes) {
-                    attribute.set(newObject, result.getString(attribute.getName()));
+                    MapValueToType(attribute, result, newObject);
                 }
                 tempList.add(newObject);
             }
@@ -128,6 +156,37 @@ public class DBManager {
         return tempList;
     }
 
+    public <T> List<T> readTable(Class TClass, String objectID, int column) {
+
+        List<T> tempList = new ArrayList<>();
+        Field[] attributes = TClass.getFields();
+        String querySQL = "select * from " + TClass.getSimpleName() + 
+                          " where "+attributes[column].getName()+" ='"+objectID+"';";
+
+        open();
+
+        try {
+
+            Statement smt = this.conn.createStatement();
+            ResultSet result = smt.executeQuery(querySQL);
+
+            while (result.next()) {
+                T newObject = (T) TClass.newInstance();
+                for (Field attribute : attributes) {
+                    MapValueToType(attribute, result, newObject);
+                }
+                tempList.add(newObject);
+            }
+
+            close();
+        } catch (SQLException | IllegalAccessException |
+                InstantiationException | NullPointerException err) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+        }
+
+        return tempList;
+    }
+    
     /**
      * Esta función lee una fila de la base de datos y retorna un objeto con el
      * contenido de dicha fila, es necesario que el objeto que usamos como
@@ -145,14 +204,14 @@ public class DBManager {
      * @return newObject Retorna un objeto que corresponde a la fila obtenida de
      * la BD.
      */
-    public <T> T readRow(Class genClass, String objectID) {
+    public <T> T readRow(Class genClass, String objectID, int columnIndex) {
 
         T newObject = null;
 
         try {
             Field[] attributes = genClass.getFields();
             String querySQL = "select * from " + genClass.getSimpleName()
-                    + " where " + attributes[0].getName() + "='"
+                    + " where " + attributes[columnIndex].getName() + " = '"
                     + objectID + "';";
 
             open();
@@ -163,7 +222,7 @@ public class DBManager {
             while (result.next()) {
                 newObject = (T) genClass.newInstance();
                 for (Field attribute : attributes) {
-                    attribute.set(newObject, result.getString(attribute.getName()));
+                    MapValueToType(attribute, result, newObject);
                 }
             }
 
@@ -184,15 +243,15 @@ public class DBManager {
      * propiedades, de aquí se infiere el tipo de dato (clase) con el que vamos
      * a trabajar.
      */
-    public <T> void deleteRow(Class TClass) {
+    public <T> void deleteRow(T obj) {
         try {
-            Field[] attributes = TClass.getFields();
-            String querySQL = "delete from " + TClass.getSimpleName() + " where "
-                    + attributes[0].getName() + "='" + attributes[0].get(TClass) + "';";
-
+            Field[] attributes = obj.getClass().getFields();
+            String query = "delete from " + obj.getClass().getSimpleName() + " where "
+                    + attributes[0].getName() + "='" + attributes[0].get(obj) + "';";
+            System.out.println(query);
             open();
             Statement smt = this.conn.createStatement();
-            smt.executeUpdate(querySQL);
+            smt.executeUpdate(query);
             close();
         } catch (IllegalArgumentException | IllegalAccessException |
                 SQLException err) {
@@ -205,79 +264,49 @@ public class DBManager {
      * @param <T>
      * @param object
      */
-    public <T> void insertRow(Class TClass) {
-        Field[] attributes = TClass.getFields();
-        String tb = TClass.getSimpleName();
-        String query = "insert into " + tb + "(";
+    public <T> void insertRow(T obj) {
+        Field[] attributes = obj.getClass().getFields();
+        String tb = obj.getClass().getSimpleName();
+        String query = "insert into " + tb + " values(";
         for (Field field : attributes) {
-            try {
-                query = query + field.getName() + ",";
-
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        query = query.substring(0, query.length() - 1);
-        query += ") values (";
-        for (Field field : attributes) {
-            try {
-                query = query + "'" + field.get(TClass) + "',";
-                //bool
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            query += CreateSQLFromType("insert",field, obj);
         }
         query = query.substring(0, query.length() - 1);
         query += ");";
+        System.out.println(query);
         try{
-                open();
-                Statement objsql = this.conn.createStatement();
-                objsql.executeUpdate(query);
-                close();
-            }catch(SQLException ex){
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }        
+            open();
+            Statement smt = this.conn.createStatement();
+            smt.executeUpdate(query);
+            close();
+        }catch(SQLException err){
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+        }        
     }
-    //----------
 
     /**
      *
      * @param <T>
      * @param object
      */
-    public <T> void updateRow(Class TClass){
-        Field[] attributes= TClass.getFields();
-        String tb = TClass.getSimpleName();
+    public <T> void updateRow(T obj){
+        Field[] attributes= obj.getClass().getFields();
+        String tb = obj.getClass().getSimpleName();
         String query ="update "+tb+" set " ;
         for(Field field: attributes){
-            try {
-                query = query + field.getName()+" = '"+field.get(TClass)+"',";
-                
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            query += CreateSQLFromType("update", field, obj);
         }
         query=query.substring(0,query.length()-1);
-        query += " where ";
-            try {
-                query += attributes[0].getName() + "='" + attributes[0].get(TClass).toString()+"'";
-            } catch (IllegalArgumentException | IllegalAccessException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        query +=";";
-            try{
-                open();
-                Statement objsql = this.conn.createStatement();
-                objsql.executeUpdate(query);
-                close();
-            }catch(SQLException ex){
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       
+        try {
+            query += " where "+attributes[0].getName() + "='" + 
+                    attributes[0].get(obj).toString()+"';";
+            open();
+            Statement objsql = this.conn.createStatement();
+            objsql.executeUpdate(query);
+            close();
+        } catch (IllegalArgumentException | IllegalAccessException | SQLException err) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+        }       
     }
 
 }

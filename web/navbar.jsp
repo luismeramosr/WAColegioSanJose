@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="ListarCursosController">Cursos</a>
+                <a class="nav-link" href="ListaCursoController">Cursos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="EvaluacionController">Evaluación</a>
+                <a class="nav-link" href="ListaEvaluacionesController">Evaluaciones</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">                    
