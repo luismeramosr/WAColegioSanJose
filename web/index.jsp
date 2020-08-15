@@ -31,7 +31,7 @@
                         <span id="errPassword" class="text-danger"></span>
                     </div>
                     <span id="errLogin" class="text-danger"></span>
-                    <button type="button" class="btn btn-primary" id="btnTest">Ingresar</button>
+                    <button type="button" class="btn btn-primary" id="btnLogin">Ingresar</button>
                 </form>                    
             </div>
         </div>         

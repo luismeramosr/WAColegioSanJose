@@ -4,6 +4,7 @@
     Author     : littman
 --%>
 
+<%@page import="idat.edu.pe.models.Usuario"%>
 <%@page import="idat.edu.pe.models.Evaluacion"%>
 <%@page import="java.util.List"%>
 <%@page import="idat.edu.pe.models.Curso"%>
@@ -13,14 +14,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="scriptstyle.jsp" %>>
+        <%@include file="scriptstyle.jsp" %>
     </head>
     <body>
+        <% 
+            if(session.getAttribute("user")!=null){
+            Usuario user = (Usuario) session.getAttribute("userData");
+        %>
         <%@include file="navbar.jsp" %>
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Listado de evaluaciones:</h5>
-               
+            <div class="card-body">                
+                <h5 class="card-title">Listado de evaluaciones:</h5>        
+                <a href="CrearEvaluacion.jsp" class="btn btn-primary">Crear evaluación</a>
                 <%
                     List<Evaluacion> evaluaciones = (List<Evaluacion>) request.getAttribute("evaluaciones");            
                 %>
@@ -39,14 +44,21 @@
                             for (Evaluacion ev : evaluaciones) {
                         %>
                         <tr>
-                            <th><%=ev.idEvaluacion %></th>                            
-                            <td><a class="btn btn-info">Ingresar</a></td>
+                            <td><%=ev.idEvaluacion %></td>
+                            <td><%=ev.Seccion %></td>    
+                            <td><%=ev.Curso %></td>    
+                            <td><a class="btn btn-info" href="VerEvaluacion.jsp">Ingresar</a></td>
                         </tr>
                         <%  }
                         %>
                     </tbody>
-                </table>
+                </table>                
             </div>            
         </div>
+        <% 
+        }else{
+            response.sendRedirect("index.jsp");
+        }
+        %>
     </body>
 </html>

@@ -1,10 +1,10 @@
-$(document).on("click", "#btnTest", function() {   
+$(document).on("click", "#btnLogin", function() {   
     let user = document.getElementById("txtUser");
     let password = document.getElementById("txtPassword");
 
     if(isOK(user, password)){
         let formData = {"user": user.value, "password": password.value};
-        post('/WAPACSJ/LoginController', formData);      
+        post('/WAColegioSanJose/LoginController', formData);      
         $("#errPassword").text("Validando...");
     }
 });

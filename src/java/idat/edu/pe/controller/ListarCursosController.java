@@ -25,10 +25,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author littman
  */
-@WebServlet(name = "ListaCursoController", urlPatterns = {"/ListaCursoController"})
-public class ListaCursoController extends HttpServlet {
+@WebServlet(name = "ListarCursosController", urlPatterns = {"/ListarCursosController"})
+public class ListarCursosController extends HttpServlet {
 
-    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
     HttpSession session;
     
     @Override
@@ -38,19 +39,22 @@ public class ListaCursoController extends HttpServlet {
         session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("userData");
         
-        if(user.isAlumno()) {
-            Alumno alu = (Alumno) session.getAttribute("user");
-            List<Curso> lstcursos = db.readTable(Curso.class, alu.Seccion, 1);
-            request.setAttribute("lstcursos", lstcursos);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
-            dispatcher.forward(request, response);            
-        }else if(user.isDocente()) {
-            Docente doc = (Docente) session.getAttribute("user");
-            List<Curso> lstcursos = db.readTable(Curso.class, doc.idDocente, 2);
-            request.setAttribute("lstcursos", lstcursos);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
-            dispatcher.forward(request, response);  
-        }
+        if (user!=null){
+            if(user.isAlumno()) {
+                Alumno alu = (Alumno) session.getAttribute("user");
+                List<Curso> lstcursos = db.readTable(Curso.class, alu.Seccion, 1);
+                request.setAttribute("lstcursos", lstcursos);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
+                dispatcher.forward(request, response);            
+            }else if(user.isDocente()) {
+                Docente doc = (Docente) session.getAttribute("user");
+                List<Curso> lstcursos = db.readTable(Curso.class, doc.idDocente, 2);
+                request.setAttribute("lstcursos", lstcursos);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
+                dispatcher.forward(request, response);
+            }
+        }else
+            response.sendRedirect("index.jsp");
     }    
 
     /**
@@ -64,11 +68,7 @@ public class ListaCursoController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        
-        
-    
+            
     }
 
     /**

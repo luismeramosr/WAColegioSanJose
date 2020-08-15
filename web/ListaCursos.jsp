@@ -4,6 +4,7 @@
     Author     : littman
 --%>
 
+<%@page import="idat.edu.pe.models.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="idat.edu.pe.models.Curso"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,6 +15,10 @@
         <%@include file="scriptstyle.jsp" %>
     </head>
     <body>
+        <% 
+            if(session.getAttribute("user")!=null){
+            Usuario user = (Usuario) session.getAttribute("userData");
+        %>
         <%@include file="navbar.jsp" %>
         <div class="card">
             <div class="card-body">
@@ -50,5 +55,10 @@
                 </table>
             </div>            
         </div>
+        <% 
+        }else{
+            response.sendRedirect("index.jsp");
+        }
+        %>
     </body>
 </html>

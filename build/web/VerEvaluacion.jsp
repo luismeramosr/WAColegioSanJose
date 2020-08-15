@@ -1,6 +1,6 @@
 <%-- 
-    Document   : evaluacion
-    Created on : Jul 21, 2020, 3:33:13 PM
+    Document   : VerEvaluacion
+    Created on : Aug 15, 2020, 4:17:55 PM
     Author     : luisr
 --%>
 
@@ -10,9 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="scriptstyle.jsp" %>
+        <script src="Scripts/jsweb/verEvaluacion.js" type="text/javascript"></script>        
     </head>
     <body>
         <%@include file="navbar.jsp" %>
-        
     </body>
 </html>
