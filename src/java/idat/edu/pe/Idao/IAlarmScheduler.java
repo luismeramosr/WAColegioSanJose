@@ -1,14 +1,14 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package idat.edu.pe.Idao;
 
-
-
-
-fetch("/WAColegioSanJose/EvaluacionController").then((response) => {
-    response.json().then((data) => {
-        console.log(data);
-    });
-});
+/**
+ *
+ * @author littman
+ */
+public interface IAlarmScheduler {
+    
+}

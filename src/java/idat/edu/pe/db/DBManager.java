@@ -267,9 +267,15 @@ public class DBManager {
     public <T> void insertRow(T obj) {
         Field[] attributes = obj.getClass().getFields();
         String tb = obj.getClass().getSimpleName();
-        String query = "insert into " + tb + " values(";
+        String query = "insert into " + tb+ " (";
+       
         for (Field field : attributes) {
-            query += CreateSQLFromType("insert",field, obj);
+            query += field.getName()+",";
+        }
+        query = query.substring(0, query.length() - 1);
+        query+=") values(";
+        for (Field field : attributes) {
+            query +=CreateSQLFromType("insert",field, obj);
         }
         query = query.substring(0, query.length() - 1);
         query += ");";

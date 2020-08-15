@@ -5,27 +5,10 @@
  */
 
 
-function addComponent(id) {
-    
-    var div=document.getElementById(id);
-    div.innerhtml=`<pregunta></pregunta>`;
-    
-    
-    var component = Vue.component(`pregunta`, {
-       template: `
-            <p>dad121as2d1a2ds1</p>
-        `
-    });
-    
-    var app = new Vue({
-        el: `#${id}`,
-        data: {
-          msg: 'ABCDEASDFA'
-        }
-    })
-}
 
-$(document).on("click", "#btnpregunta", function() {    
-    addComponent("pregunta1");
-    console.log("asdsdsddad");
+
+fetch("/WAColegioSanJose/EvaluacionController").then((response) => {
+    response.json().then((data) => {
+        console.log(data);
+    });
 });

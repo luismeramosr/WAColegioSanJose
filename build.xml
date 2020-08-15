@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="WAPACSJ" default="default" basedir=".">
-    <description>Builds, tests, and runs the project WAPACSJ.</description>
+<project name="WAColegioSanJose" default="default" basedir=".">
+    <description>Builds, tests, and runs the project WAColegioSanJose.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 

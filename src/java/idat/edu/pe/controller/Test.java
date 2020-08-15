@@ -32,8 +32,8 @@ import jdk.nashorn.internal.parser.JSONParser;
 public class Test extends HttpServlet {
 
     Gson gson = new Gson();    
-    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    
+    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    DBManager db= new DBManager("localhost","3306","root","123","apolloma_Colegio");
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        

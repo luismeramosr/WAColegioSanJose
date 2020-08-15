@@ -10,7 +10,6 @@ package idat.edu.pe.models;
  * @author luisr
  */
 public class Evaluacion {
-    public String idEvaluacion;
     public String Seccion;
     public String Curso;
     public String data;
@@ -18,8 +17,7 @@ public class Evaluacion {
     public Evaluacion() {
     }
 
-    public Evaluacion(String idEvaluacion, String Seccion, String Curso, String data) {
-        this.idEvaluacion = idEvaluacion;
+    public Evaluacion(String Seccion, String Curso, String data) {
         this.Seccion = Seccion;
         this.Curso = Curso;
         this.data = data;

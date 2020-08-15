@@ -4,7 +4,7 @@ $(document).on("click", "#btnTest", function() {
 
     if(isOK(user, password)){
         let formData = {"user": user.value, "password": password.value};
-        post('/WAPACSJ/LoginController', formData);      
+        post('/WAColegioSanJose/LoginController', formData);      
         $("#errPassword").text("Validando...");
     }
 });

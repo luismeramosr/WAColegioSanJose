@@ -60,8 +60,8 @@ public class LoginController extends HttpServlet {
         
     }
     
-    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    
+    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    DBManager db= new DBManager("localhost","3306","root","123","apolloma_Colegio");
     private boolean login(String user, String password) {                
         Usuario newUser = db.readRow(Usuario.class, user, 0);
         
