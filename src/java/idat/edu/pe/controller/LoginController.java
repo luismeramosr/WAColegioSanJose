@@ -30,7 +30,8 @@ import javax.servlet.http.HttpSession;
 public class LoginController extends HttpServlet {
     
     //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
+    //DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
+    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
     Gson gson = new Gson();
     JsonObject jo;
     HttpSession session;

@@ -4,19 +4,32 @@
  * and open the template in the editor.
  */
 
-let obj = {
-    "id": "id1",
-    "nombre": "lala",
-    "atributos": [
-        {"nombreAtributo": "nom1", "tipoAtributo": "t1"},
-        {"nombreAtributo": "nom2", "tipoAtributo": "t2"},
-        {"nombreAtributo": "nom3", "tipoAtributo": "t3"}
-    ]
-}
+import {Evaluacion} from './Models.js';
 
-function deconstruct({id,nombre}) {
-    return params[0]
-}
+let evaluacion = new Evaluacion();
 
-let obj2 = params[0];
-console.log(obj2);
+fetch("/WAColegioSanJose/VerEvaluacionController").then((response)=>{
+    response.json((evaluacion)=>{
+        console.log(evaluacion);
+    })
+})
+
+
+
+
+//let obj = {
+//    "id": "id1",
+//    "nombre": "lala",
+//    "atributos": [
+//        {"nombreAtributo": "nom1", "tipoAtributo": "t1"},
+//        {"nombreAtributo": "nom2", "tipoAtributo": "t2"},
+//        {"nombreAtributo": "nom3", "tipoAtributo": "t3"}
+//    ]
+//}
+//
+//function deconstruct({id,nombre}) {
+//    return params[0]
+//}
+//
+//let obj2 = params[0];
+//console.log(obj2);

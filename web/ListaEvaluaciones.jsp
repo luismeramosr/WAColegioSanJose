@@ -47,7 +47,7 @@
                             <td><%=ev.idEvaluacion %></td>
                             <td><%=ev.Seccion %></td>    
                             <td><%=ev.Curso %></td>    
-                            <td><a class="btn btn-info" href="VerEvaluacion.jsp">Ingresar</a></td>
+                            <td><a class="btn btn-info" href="VerEvaluacionController?idEvaluacion=<%=ev.idEvaluacion%>">Ingresar</a></td>
                         </tr>
                         <%  }
                         %>

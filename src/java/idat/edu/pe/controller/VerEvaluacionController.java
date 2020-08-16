@@ -8,59 +8,62 @@ package idat.edu.pe.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import idat.edu.pe.db.DBManager;
-import idat.edu.pe.models.Curso;
-import idat.edu.pe.models.Docente;
 import idat.edu.pe.models.Evaluacion;
-import idat.edu.pe.models.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author luisr
+ * @author littman
  */
-@WebServlet(name = "CrearEvaluacionController", urlPatterns = {"/CrearEvaluacionController"})
-public class CrearEvaluacionController extends HttpServlet {
+@WebServlet(name = "VerEvaluacionController", urlPatterns = {"/VerEvaluacionController"})
+public class VerEvaluacionController extends HttpServlet {
 
-    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     //DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
     DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
     Gson gson = new Gson();
     JsonObject jo;
-    HttpSession session;
-            
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Evaluacion> ev = db.readTable(Evaluacion.class);
+        String idEvaluacion = request.getParameter("idEvaluacion");
+        Evaluacion ev = db.readRow(Evaluacion.class, idEvaluacion, 0);
         response.setHeader("Content-Type", "application/json");        
         PrintWriter pw = response.getWriter();
         pw.println(gson.toJson(ev));
-        pw.close();      
+        pw.close();   
+        
+        
     }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        session = request.getSession();
-        jo = gson.fromJson(request.getReader(), JsonObject.class);
-        Docente doc = (Docente) session.getAttribute("user");
-        Curso curso = db.readRow(Curso.class, doc.idDocente, 2);
-        String data = jo.toString();
-        Evaluacion newev = new Evaluacion(getNewEvaluacionID(),curso.Seccion, curso.idCurso, data);
-        db.insertRow(newev);
-    }
-    
-    private int getNewEvaluacionID() {
-        List<Evaluacion> evaluaciones = db.readTable(Evaluacion.class);
-        return ++evaluaciones.get(evaluaciones.size()-1).idEvaluacion;
+        
     }
 
     /**
