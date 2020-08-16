@@ -5,6 +5,9 @@
         <group>
             <file>file:/home/luisr/Documents/NetBeansProjects/WAColegioSanJose/web/Scripts/jsweb/Models.js</file>
             <file>file:/home/luisr/Documents/NetBeansProjects/WAColegioSanJose/web/Scripts/jsweb/evaluacion.js</file>
+            <file>file:/home/littman/Documents/WAColegioSanJose/src/java/idat/edu/pe/models/Evaluacion.java</file>
+            <file>file:/home/littman/Documents/WAColegioSanJose/src/java/idat/edu/pe/controller/EvTimeController.java</file>
+            <file>file:/home/littman/Documents/WAColegioSanJose/src/java/idat/edu/pe/models/AlarmScheduler.java</file>
         </group>
     </open-files>
 </project-private>
