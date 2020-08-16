@@ -1,2 +1,4 @@
 /dist/**
-build/web/WEB-INF/classes/idat/edu/pe/controller/EvaluacionController.class
+/build/**
+*.class
+
