@@ -1,4 +1,4 @@
-$(document).on("click", "#btnTest", function() {   
+$(document).on("click", "#btnLogin", function() {   
     let user = document.getElementById("txtUser");
     let password = document.getElementById("txtPassword");
 

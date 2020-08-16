@@ -31,9 +31,13 @@ import jdk.nashorn.internal.parser.JSONParser;
 @WebServlet(name = "Test", urlPatterns = {"/api"})
 public class Test extends HttpServlet {
 
-    Gson gson = new Gson();    
     //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    DBManager db= new DBManager("localhost","3306","root","123","apolloma_Colegio");
+    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");    
+    //DBManager db= new DBManager("localhost","3306","root","123","apolloma_Colegio");
+    Gson gson = new Gson();  
+    JsonObject jo;  
+    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
@@ -46,13 +50,13 @@ public class Test extends HttpServlet {
         pw.close();
     }
 
-    JsonObject jo;
+    
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {   
         jo = gson.fromJson(request.getReader(), JsonObject.class);
-        System.out.println(jo.toString());
+        System.out.println(jo.get("name"));
     }
    
     @Override

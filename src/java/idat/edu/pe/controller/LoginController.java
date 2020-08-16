@@ -28,8 +28,13 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
-
+    
+    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
+    Gson gson = new Gson();
+    JsonObject jo;
     HttpSession session;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
@@ -37,10 +42,7 @@ public class LoginController extends HttpServlet {
         session.invalidate();
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
-    }
-
-    Gson gson = new Gson();
-    JsonObject jo;
+    }    
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -58,10 +60,8 @@ public class LoginController extends HttpServlet {
             // User was not found or doesn't
             response.setStatus(500);            
         
-    }
+    }       
     
-    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    DBManager db= new DBManager("localhost","3306","root","123","apolloma_Colegio");
     private boolean login(String user, String password) {                
         Usuario newUser = db.readRow(Usuario.class, user, 0);
         

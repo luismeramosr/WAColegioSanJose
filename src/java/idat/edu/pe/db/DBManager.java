@@ -164,7 +164,6 @@ public class DBManager {
                           " where "+attributes[column].getName()+" ='"+objectID+"';";
 
         open();
-
         try {
 
             Statement smt = this.conn.createStatement();
@@ -215,7 +214,6 @@ public class DBManager {
                     + objectID + "';";
 
             open();
-
             Statement smt = this.conn.createStatement();
             ResultSet result = smt.executeQuery(querySQL);
 
@@ -248,7 +246,6 @@ public class DBManager {
             Field[] attributes = obj.getClass().getFields();
             String query = "delete from " + obj.getClass().getSimpleName() + " where "
                     + attributes[0].getName() + "='" + attributes[0].get(obj) + "';";
-            System.out.println(query);
             open();
             Statement smt = this.conn.createStatement();
             smt.executeUpdate(query);
@@ -279,7 +276,6 @@ public class DBManager {
         }
         query = query.substring(0, query.length() - 1);
         query += ");";
-        System.out.println(query);
         try{
             open();
             Statement smt = this.conn.createStatement();
