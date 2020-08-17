@@ -14,14 +14,11 @@
                 <a class="nav-link" href="ListarEvaluacionesController">Evaluaciones</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="VerEvaluacion.jsp">Ver Evaluaciones</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="CrearEvaluacion.jsp">crearevalu</a>
+                <a class="nav-link" href="TestController">test</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">                    
-            <a class="btn btn-outline-light my-2 my-sm-0" href="LoginController" >Cerrar sesión</a>
+            <a class="btn btn-outline-light my-2 my-sm-0" href="LoginController">Cerrar sesión</a>
         </form>
     </div>
 </nav>

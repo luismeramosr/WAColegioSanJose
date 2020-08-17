@@ -25,6 +25,7 @@ $(document).on("click",".popAlt", (evt) => {
 });
 
 $(document).on("click", "#save", () => {
+    evaluacion.curso = document.getElementById("curso").value;
     evaluacion.title = document.getElementById("title").value;
     evaluacion.preguntas.forEach(((pregunta) => {
         pregunta.contenido = pregunta.textElement.value;
@@ -38,6 +39,43 @@ $(document).on("click", "#save", () => {
     }));
     post("/WAColegioSanJose/EvaluacionController",evaluacion);
 });
+
+function formatEvaluacion(evaluacion) {
+    
+    let formattedEv = {};
+    formattedEv["title"] = evaluacion.title;
+    formattedEv["curso"] = evaluacion.curso;
+    formattedEv["preguntasCount"] = evaluacion.preguntasCount;
+    formattedEv["preguntas"] = evaluacion.preguntas.map(({
+        id,
+        numero,
+        contenido
+    }) => {
+        return {
+            "id": id, 
+            "numero": numero, 
+            "contenido": contenido
+        };
+    }); 
+        
+    formattedEv["preguntas"].forEach((pregunta, index) => {
+        pregunta["alternativas"] = evaluacion.preguntas[index]["alternativas"].map(({
+            id, 
+            contenido,
+            pregunta,
+            isSelected
+        }) => {
+            return {
+                "id": id,
+                "contenido": contenido,
+                "pregunta": pregunta,
+                "isSelected": isSelected
+            };
+        });
+    });
+
+    return formattedEv;
+}
 
 function post(url, evaluacion) {
     fetch(url,{

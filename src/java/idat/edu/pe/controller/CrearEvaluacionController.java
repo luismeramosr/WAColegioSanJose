@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author luisr
  */
-@WebServlet(name = "EvaluacionController", urlPatterns = {"/EvaluacionController"})
+@WebServlet(name = "CrearEvaluacionController", urlPatterns = {"/CrearEvaluacionController"})
 public class CrearEvaluacionController extends HttpServlet {
 
     //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
