@@ -37,21 +37,32 @@ public class ListarEvaluacionesController extends HttpServlet {
             
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+            throws ServletException, IOException {        
         session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("userData");
-        
+        String idCurso = request.getParameter("idCurso");
+        System.out.println(idCurso);
         if(user!=null){
             if (user.isDocente()) {
                 String seccionDocente = ((Curso) db.readRow(Curso.class, user.idUsuario, 2)).Seccion;
-                List<Evaluacion> evaluaciones = db.readTable(Evaluacion.class, seccionDocente, 1);
+                List<Evaluacion> evaluaciones = idCurso == null ? 
+                db.readTable(Evaluacion.class, seccionDocente, 1): evaluacionesDeCursoX(idCurso, seccionDocente);
                 request.setAttribute("evaluaciones", evaluaciones);
                 dispatcher = request.getRequestDispatcher("/ListaEvaluaciones.jsp");
                 dispatcher.forward(request, response);
             } 
         }else
             response.sendRedirect("index.jsp");            
+    }
+    
+    private List<Evaluacion> evaluacionesDeCursoX(String idCurso, String Seccion) {
+        List<Evaluacion> evaluacionesDeCursoX = new ArrayList();
+        List<Evaluacion> evaluacionesDeSeccionX = db.readTable(Evaluacion.class, Seccion, 1);
+        for (Evaluacion ev: evaluacionesDeSeccionX) {
+            if(ev.Curso.equals(idCurso))
+                evaluacionesDeCursoX.add(ev);            
+        }
+        return evaluacionesDeCursoX;
     }
 
     /**

@@ -24,8 +24,11 @@
         <div id="Evaluacion">    
             <div class="form-group">
                 <h3 for="title">Título de la evaluación</h3>
-                <input type="email" class="form-control" id="title" placeholder="Título...">
-            </div>    
+                <input type="email" class="form-control" id="title" placeholder="Título...">                
+                <h3 for="title">Curso</h3>
+                <!-- Cambiar por un combobox -->
+                <input type="email" class="form-control" id="curso" placeholder="Curso...">
+            </div> 
             <!-- Las preguntas se agregarán mediante Javascript-->
         </div>
         <button id="pushPregunta" class="btn btn-warning">Agregar pregunta</button>

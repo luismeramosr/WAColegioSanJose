@@ -46,7 +46,7 @@
                             <th><%=cur.idCurso %></th>
                             <td><%=cur.nombre %></td>
                             
-                            <td><a href="ListaEvaluacionesController?idCurso=<%=cur.idCurso%>"
+                            <td><a href="ListarEvaluacionesController?idCurso=<%=cur.idCurso%>"
                                    class="btn btn-info">Ver evaluaciones</a></td>
                         </tr>
                         <%  }

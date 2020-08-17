@@ -4,6 +4,7 @@ export class Evaluacion {
         this.preguntasCount;
         this.element;
         this.title;
+        this.curso;
     }
 }
 
@@ -35,7 +36,8 @@ class Alternativa {
         this.container;
         this.isSelected;
         this.template = ``; // agrega el template
-        this.element;
+        this.textElement;
+        this.boolElement;
     }
     
     pushToDOM() {
