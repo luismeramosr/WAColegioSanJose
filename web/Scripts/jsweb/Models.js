@@ -1,10 +1,14 @@
 export class Evaluacion {
     constructor() {
         this.preguntas = [];
-        this.preguntasCount;
-        this.element;
+        this.element = document.getElementById("Evaluacion");
         this.title;
-        this.curso;
+        this.duracion;
+        this.limiteEntrega;
+    }
+    
+    pushPregunta({id, numero, contenido}) {
+        this.preguntas.push(Object.assign(new Pregunta(), {id, numero, contenido}));
     }
 }
 
@@ -13,17 +17,34 @@ class Pregunta {
         this.id;
         this.numero;
         this.contenido;
-        this.evaluacion;
+        this.evaluacion = document.getElementById("Evaluacion");
         this.alternativas = [];
-        this.element;
-        this.template = ``; // agrega un template para mostrar preguntas        
-    }
+        this.element;                      
+    }   
     
     pushToDOM() {
         let newPregunta = document.createElement('div');
         newPregunta.id = this.id;    
-        newPregunta.innerHTML = this.template;
+        newPregunta.innerHTML = `    
+        <div class="card">
+            <div class="card-body">
+                <span class="card-title">Pregunta Nro ${this.numero}</span>
+                <div class="input-group">
+                    <textarea class="form-control" placeholder="Inserte Pregunta" 
+                    aria-label="With textarea" id="${this.id}data">${this.contenido}</textarea>
+                </div><br/>
+                <div id="alternativas${this.id}">
+                    
+                </div><br/>
+                <button id="pushAlt${this.id}" class="btn btn-warning pushAlt">Agregar alternativa</button>
+                <button id="popAlt${this.id}" class="btn btn-warning popAlt">Quitar alternativa</button>
+            </div>            
+        </div>`;
         this.evaluacion.appendChild(newPregunta);
+    }
+    
+    pushAlternativa(alternativaData) {
+        this.alternativas.push(Object.assign(new Alternativa(), alternativaData));
     }
 }
 
@@ -33,34 +54,46 @@ class Alternativa {
         this.numero;
         this.contenido;
         this.pregunta;
-        this.container;
         this.isSelected;
-        this.template = ``; // agrega el template
-        this.textElement;
-        this.boolElement;
     }
     
-    pushToDOM() {
+    pushToDOM() {        
         let newAlternativa = document.createElement('div');        
         newAlternativa.id = this.id;     
-        newAlternativa.innerHTML = this.template;
-        this.container.appendChild(newAlternativa);
+        newAlternativa.innerHTML = `
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Radio button" id="${this.id}bool" 
+                    name="group${this.pregunta}" class="alt">
+                </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input"
+            id="${this.id}text" value="${this.contenido}">
+        </div></br>`;
+        let container = document.getElementById(`alternativas${this.pregunta}`);
+        container.appendChild(newAlternativa);
+        let boolElement = document.getElementById(`${this.id}bool`);
+        boolElement.checked = this.isSelected;
     }
     
 }
 
-export class EvaluacionNueva extends Evaluacion {
+export class NuevaEvaluacion {
     constructor() {
-        super();
+        this.preguntas = [];
         this.preguntasCount = 1;
-        this.preguntas.push(new PreguntaNueva(1));
+        this.preguntas.push(new NuevaPregunta(1));
         this.element = document.getElementById("Evaluacion");
+        this.title;
+        this.duracion;
+        this.limiteEntrega;
     }
 
     pushPregunta() {
         this.preguntasCount++;
         let newID = `p${this.preguntasCount}`;
-        this.preguntas.push(new PreguntaNueva(this.preguntasCount));
+        this.preguntas.push(new NuevaPregunta(this.preguntasCount));
     }
 
     popPregunta() {
@@ -74,9 +107,8 @@ export class EvaluacionNueva extends Evaluacion {
     }
 }
 
-class PreguntaNueva extends Pregunta {
+class NuevaPregunta {
     constructor(numero) {
-        super();
         this.id = `p${numero}`;
         this.numero = numero;
         this.contenido = "";
@@ -101,15 +133,15 @@ class PreguntaNueva extends Pregunta {
         this.textElement = document.getElementById(`${this.id}data`);
         this.alternativasContainer = document.getElementById(`alternativas${this.id}`);
         this.alternativas = [
-            new AlternativaNueva(1, this.id),
-            new AlternativaNueva(2, this.id),
-            new AlternativaNueva(3, this.id)
+            new NuevaAlternativa(1, this.id),
+            new NuevaAlternativa(2, this.id),
+            new NuevaAlternativa(3, this.id)
         ];
     }     
     
     pushAlternativa() {
         this.alternativasCount++;
-        this.alternativas.push(new AlternativaNueva(this.alternativasCount, this.id));
+        this.alternativas.push(new NuevaAlternativa(this.alternativasCount, this.id));
     }
     
     popAlternativa() {
@@ -121,29 +153,43 @@ class PreguntaNueva extends Pregunta {
         } else
             alert("No hay alternativas para eliminar.");        
     }
+    
+    pushToDOM() {
+        let newPregunta = document.createElement('div');
+        newPregunta.id = this.id;    
+        newPregunta.innerHTML = this.template;
+        this.evaluacion.appendChild(newPregunta);
+    }
 }
 
-class AlternativaNueva extends Alternativa { 
+class NuevaAlternativa { 
     constructor(numero, idPregunta) {
-        super();
         this.id = `${idPregunta}alt${numero}`;
         this.numero = numero;
         this.contenido = "";
         this.pregunta = idPregunta;
         this.isSelected = false; 
         this.container = document.getElementById(`alternativas${idPregunta}`);        
-        this.template = `<div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="radio" aria-label="Radio button" id="${this.id}bool" 
-                                    name="group${this.pregunta}" class="alt">
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input"
-                            id="${this.id}text">
-                        </div></br>`;
+        this.template = `
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Radio button" id="${this.id}bool" 
+                    name="group${this.pregunta}" class="alt">
+                </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input"
+            id="${this.id}text">
+        </div></br>`;
         this.pushToDOM({"id": this.id,"container": this.container});                
         this.textElement = document.getElementById(`${this.id}text`); 
         this.boolElement = document.getElementById(`${this.id}bool`);
-    }    
+    }   
+    
+    pushToDOM() {
+        let newAlternativa = document.createElement('div');        
+        newAlternativa.id = this.id;     
+        newAlternativa.innerHTML = this.template;
+        this.container.appendChild(newAlternativa);
+    }
 }

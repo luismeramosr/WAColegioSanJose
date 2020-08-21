@@ -12,7 +12,12 @@ import idat.edu.pe.models.Evaluacion;
 import idat.edu.pe.models.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,14 +46,14 @@ public class ListarEvaluacionesController extends HttpServlet {
         session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("userData");
         String idCurso = request.getParameter("idCurso");
-        System.out.println(idCurso);
         if(user!=null){
             if (user.isDocente()) {
                 String seccionDocente = ((Curso) db.readRow(Curso.class, user.idUsuario, 2)).Seccion;
                 List<Evaluacion> evaluaciones = idCurso == null ? 
                 db.readTable(Evaluacion.class, seccionDocente, 1): evaluacionesDeCursoX(idCurso, seccionDocente);
                 request.setAttribute("evaluaciones", evaluaciones);
-                dispatcher = request.getRequestDispatcher("/ListaEvaluaciones.jsp");
+                request.setAttribute("limitesEntrega", getDatesFromTimestamps(evaluaciones));
+                dispatcher = request.getRequestDispatcher("/ListarEvaluaciones.jsp");
                 dispatcher.forward(request, response);
             } 
         }else
@@ -60,9 +65,20 @@ public class ListarEvaluacionesController extends HttpServlet {
         List<Evaluacion> evaluacionesDeSeccionX = db.readTable(Evaluacion.class, Seccion, 1);
         for (Evaluacion ev: evaluacionesDeSeccionX) {
             if(ev.Curso.equals(idCurso))
-                evaluacionesDeCursoX.add(ev);            
+                evaluacionesDeCursoX.add(ev);
         }
         return evaluacionesDeCursoX;
+    }
+    
+    private List<String> getDatesFromTimestamps(List<Evaluacion> evaluaciones) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        List<String> dates = new ArrayList();
+        for (Evaluacion ev : evaluaciones) {
+            Date date = new Date();
+            date.setTime((long) ev.limiteEntrega*1000);
+            dates.add(formatter.format(date));
+        }
+        return dates;
     }
 
     /**

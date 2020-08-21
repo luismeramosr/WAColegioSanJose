@@ -33,7 +33,7 @@ public class LoginController extends HttpServlet {
     DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
     Gson gson = new Gson();
     JsonObject jo;
-    HttpSession session;
+    HttpSession session;    
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -13,15 +13,21 @@ public class Evaluacion {
     public int idEvaluacion;
     public String Seccion;
     public String Curso;
+    public int habilitado;
+    public int duracion;
+    public int limiteEntrega;
     public String data;
 
     public Evaluacion() {
     }
 
-    public Evaluacion(int idEvaluacion, String Seccion, String Curso, String data) {
+    public Evaluacion(int idEvaluacion, String Seccion, String Curso, int habilitado, int duracion, int fecha_limite, String data) {
         this.idEvaluacion = idEvaluacion;
         this.Seccion = Seccion;
         this.Curso = Curso;
+        this.habilitado = habilitado;
+        this.duracion = duracion;
+        this.limiteEntrega = fecha_limite;
         this.data = data;
-    }           
+    }
 }

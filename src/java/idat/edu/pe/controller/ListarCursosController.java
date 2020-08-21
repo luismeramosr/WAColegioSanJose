@@ -45,13 +45,13 @@ public class ListarCursosController extends HttpServlet {
                 Alumno alu = (Alumno) session.getAttribute("user");
                 List<Curso> lstcursos = db.readTable(Curso.class, alu.Seccion, 1);
                 request.setAttribute("lstcursos", lstcursos);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarCursos.jsp");
                 dispatcher.forward(request, response);            
             }else if(user.isDocente()) {
                 Docente doc = (Docente) session.getAttribute("user");
                 List<Curso> lstcursos = db.readTable(Curso.class, doc.idDocente, 2);
                 request.setAttribute("lstcursos", lstcursos);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarCursos.jsp");
                 dispatcher.forward(request, response);
             }
         }else

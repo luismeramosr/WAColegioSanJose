@@ -12,9 +12,13 @@ import idat.edu.pe.models.Curso;
 import idat.edu.pe.models.Docente;
 import idat.edu.pe.models.Evaluacion;
 import idat.edu.pe.models.Usuario;
+import idat.edu.pe.scheduler.Task;
+import idat.edu.pe.scheduler.TaskScheduler;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,32 +38,53 @@ public class CrearEvaluacionController extends HttpServlet {
     Gson gson = new Gson();
     JsonObject jo;
     HttpSession session;
+    TaskScheduler ts = new TaskScheduler();
             
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Evaluacion> ev = db.readTable(Evaluacion.class);
-        response.setHeader("Content-Type", "application/json");        
-        PrintWriter pw = response.getWriter();
-        pw.println(gson.toJson(ev));
-        pw.close();      
+        session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("userData");
+        if (user!=null) {
+            List<Curso> cursos = db.readTable(Curso.class, user.idUsuario, 2);
+            request.setAttribute("cursos", cursos);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("CrearEvaluacion.jsp");
+            dispatcher.forward(request, response);
+        }else
+            response.sendRedirect("index.jsp");        
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        session = request.getSession();
         jo = gson.fromJson(request.getReader(), JsonObject.class);
-        Docente doc = (Docente) session.getAttribute("user");
-        Curso curso = db.readRow(Curso.class, doc.idDocente, 2);
-        String data = jo.toString();
-        Evaluacion newev = new Evaluacion(getNewEvaluacionID(),curso.Seccion, curso.idCurso, data);
+        Curso curso = db.readRow(Curso.class, jo.get("curso").getAsString(), 0);    
+        String newEvData = jo.get("data").getAsJsonObject().toString();
+        int duracion = jo.get("duracion").getAsInt();
+        int limiteEntrega = jo.get("limiteEntrega").getAsInt();
+        int currentTime = Math.round(new Date().getTime()/1000);
+        System.out.println(limiteEntrega-currentTime);
+        Evaluacion newev = new Evaluacion(getNewEvaluacionID(), curso.Seccion, 
+                                curso.idCurso, 1, duracion, limiteEntrega, newEvData);        
         db.insertRow(newev);
+        ts.scheduleTask(new Task() {
+            @Override
+            public void run() {
+                newev.habilitado=0;
+                db.updateRow(newev);
+                System.out.println("Deshabilitando evaluacion: "+newev.idEvaluacion);                
+            }
+        }, limiteEntrega-currentTime);
     }
     
     private int getNewEvaluacionID() {
-        List<Evaluacion> evaluaciones = db.readTable(Evaluacion.class);
-        return ++evaluaciones.get(evaluaciones.size()-1).idEvaluacion;
+        try {
+            List<Evaluacion> evaluaciones = db.readTable(Evaluacion.class);
+            return ++evaluaciones.get(evaluaciones.size()-1).idEvaluacion;
+        }catch (ArrayIndexOutOfBoundsException err) {
+            System.out.println(err);
+            return 1;
+        }        
     }
 
     /**

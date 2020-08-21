@@ -17,7 +17,6 @@
     <body>
         <% 
             if(session.getAttribute("user")!=null){
-            Usuario user = (Usuario) session.getAttribute("userData");
         %>
         <%@include file="navbar.jsp" %>
         <div class="card">

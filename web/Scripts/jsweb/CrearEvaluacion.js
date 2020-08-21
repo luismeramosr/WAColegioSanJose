@@ -1,6 +1,28 @@
-import {EvaluacionNueva} from './Models.js';
+import {NuevaEvaluacion} from './Models.js';
 
-let evaluacion = new EvaluacionNueva();
+let evaluacion = new NuevaEvaluacion();
+
+$(document).ready(() => {
+    //Agregando selector de duracion
+    $('#duracionPicker').datetimepicker({
+        timepicker: true,
+        datepicker: false,
+        format: 'H:i',
+        hours12: false,
+        value: '00:00',
+        step: 15,
+        scroll: false
+    });
+    //Agregando selector de hora y fecha
+    $('#limitePicker').datetimepicker({
+        timepicker: true,
+        datepicker: true,
+        format: 'Y/m/d H:i',
+        hours12: false,
+        value: 'now',
+        step: 15        
+    });
+});
 
 $(document).on("click", "#pushPregunta", () => {    
     evaluacion.pushPregunta();
@@ -25,8 +47,11 @@ $(document).on("click",".popAlt", (evt) => {
 });
 
 $(document).on("click", "#save", () => {
-    evaluacion.curso = document.getElementById("curso").value;
     evaluacion.title = document.getElementById("title").value;
+    let nombreCurso = document.getElementById("cursoSelector").value;
+    evaluacion.curso = document.getElementById(nombreCurso).value;
+    evaluacion.duracion = document.getElementById("duracionPicker").value;
+    evaluacion.limiteEntrega = document.getElementById("limitePicker").value;
     evaluacion.preguntas.forEach(((pregunta) => {
         pregunta.contenido = pregunta.textElement.value;
         pregunta.alternativas.forEach((alternativa) => {
@@ -37,16 +62,28 @@ $(document).on("click", "#save", () => {
                 alternativa.isSelected = false;
         });
     }));
-    post("/WAColegioSanJose/EvaluacionController",evaluacion);
+    post(`/WAColegioSanJose/CrearEvaluacionController`, formatEvaluacion(evaluacion));
 });
 
 function formatEvaluacion(evaluacion) {
     
-    let formattedEv = {};
-    formattedEv["title"] = evaluacion.title;
-    formattedEv["curso"] = evaluacion.curso;
-    formattedEv["preguntasCount"] = evaluacion.preguntasCount;
-    formattedEv["preguntas"] = evaluacion.preguntas.map(({
+    let tempDuracion = evaluacion.duracion.split(":");    
+    let duracion = tempDuracion[0]*3600 + tempDuracion[1]*60;
+    
+    let limite = getTimeStampFromString(evaluacion.limiteEntrega);
+
+    let formattedEv = {
+        "curso": evaluacion.curso,
+        "duracion": duracion,
+        "limiteEntrega": limite
+    };    
+    
+    let data = {};
+    
+    data["title"] = evaluacion.title;
+    data["curso"] = evaluacion.curso;
+    data["preguntasCount"] = evaluacion.preguntasCount;
+    data["preguntas"] = evaluacion.preguntas.map(({
         id,
         numero,
         contenido
@@ -58,7 +95,7 @@ function formatEvaluacion(evaluacion) {
         };
     }); 
         
-    formattedEv["preguntas"].forEach((pregunta, index) => {
+    data["preguntas"].forEach((pregunta, index) => {
         pregunta["alternativas"] = evaluacion.preguntas[index]["alternativas"].map(({
             id, 
             contenido,
@@ -73,8 +110,14 @@ function formatEvaluacion(evaluacion) {
             };
         });
     });
+    
+    formattedEv["data"] = data;
 
     return formattedEv;
+}
+
+function getTimeStampFromString(datetime) {
+    return Date.parse(datetime)/1000;
 }
 
 function post(url, evaluacion) {

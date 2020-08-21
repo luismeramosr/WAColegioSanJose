@@ -8,6 +8,10 @@
     margin-top: -1rem;
 }
 
+.settings {
+    display: flex;
+}
+
 #Evaluacion {
     padding: 1rem;
 }
