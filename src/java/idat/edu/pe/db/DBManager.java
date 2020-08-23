@@ -24,7 +24,7 @@ public class DBManager {
     private String user;
     private String password;
     private String url = "jdbc:mysql://";
-    private Connection conn = null;
+    public Connection conn = null;
 
     /**
      * Crea una nueva instancia de la base de datos, pero debes especificar el
