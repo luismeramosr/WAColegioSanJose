@@ -41,13 +41,30 @@ public class ReporteEvaluacionController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
-    Gson gson = new Gson();
-    JsonObject jo;
+    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
+//    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        File reporte = new File(request.getServletContext().getRealPath("ReporteEvaluacion.jasper"));
+        Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put("p_idevaluacion", Integer.parseInt(request.getParameter("Evaluacion")));
+        parametros.put("p_idalumno", request.getParameter("Alumno"));
+        parametros.put("p_curso", request.getParameter("Curso"));
+        parametros.put("p_seccion", request.getParameter("Seccion"));
+        try{
+            byte[] bytes = JasperRunManager.runReportToPdf(reporte.getPath(),
+                                                            parametros,db.getConnection());
+            response.setContentType("application/pdf");
+            response.setContentLength(bytes.length);
+            OutputStream output = response.getOutputStream();
+            output.write(bytes, 0, bytes.length);
+            output.flush();
+            output.close();   
+        } catch (JRException err) {
+            System.out.println(err);
+        }
     }
 
     /**
@@ -61,27 +78,7 @@ public class ReporteEvaluacionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        jo = gson.fromJson(request.getReader(), JsonObject.class);
-        File reporte = new File(request.getServletContext().getRealPath("ReporteEvaluacion.jasper"));
-        Map<String, Object> parametros = new HashMap<String, Object>();
-        parametros.put("p_idevaluacion", jo.get("idEvaluacion").getAsInt());
-        parametros.put("p_idalumno", jo.get("idAlumno").getAsString());
-        parametros.put("p_curso", jo.get("curso").getAsString());
-        parametros.put("p_seccion", jo.get("seccion").getAsString());
-        try{
-            byte[] bytes = JasperRunManager.runReportToPdf(reporte.getPath(),
-                    parametros,db.conn);
-            response.setContentType("application/pdf");
-            response.setContentLength(bytes.length);
-            OutputStream output = response.getOutputStream();
-            output.write(bytes, 0, bytes.length);
-            output.flush();
-            output.close();
-      
-            
-        } catch (JRException ex) {
-           
-        }
+        
     }
 
     /**

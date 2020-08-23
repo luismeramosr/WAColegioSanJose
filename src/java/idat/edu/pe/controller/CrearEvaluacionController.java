@@ -34,8 +34,8 @@ import javax.servlet.http.HttpSession;
 public class CrearEvaluacionController extends HttpServlet {
 
     //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    //DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
-    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
+    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
+//    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
     Gson gson = new Gson();
     JsonObject jo;
     HttpSession session;
@@ -44,13 +44,16 @@ public class CrearEvaluacionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("userData");
         jo = gson.fromJson(request.getReader(), JsonObject.class);
+        String seccionDocente = ((Curso) db.readRow(Curso.class, user.idUsuario, 2)).Seccion;
         Curso curso = db.readRow(Curso.class, jo.get("curso").getAsString(), 0);    
         String newEvData = jo.get("data").getAsJsonObject().toString();
         int duracion = jo.get("duracion").getAsInt();
         int limiteEntrega = jo.get("limiteEntrega").getAsInt();
         int currentTime = Math.round(new Date().getTime()/1000);
-        Evaluacion newev = new Evaluacion(getNewEvaluacionID(), curso.Seccion, 
+        Evaluacion newev = new Evaluacion(getNewEvaluacionID(), seccionDocente, 
                                 curso.idCurso, 1, duracion, limiteEntrega, newEvData);        
         db.insertRow(newev);
         ts.scheduleTask(new Task() {

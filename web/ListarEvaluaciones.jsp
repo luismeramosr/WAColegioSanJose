@@ -60,7 +60,10 @@
                                 <td><%=ev.Curso %></td>    
                                 <td><%=limitesEntrega.get(i) %></td> 
                                 <input  type="hidden" value="<%=ev.Seccion %>" id="<%=ev.idEvaluacion %>"/>
-                                <td><button class="btn btn-warning mr-2 btnEditarEvaluacion"
+                                <td><button class="btn btn-success mr-2 btnGenerarReporteNotas"
+                                        idEvaluacion="<%=ev.idEvaluacion%>" Seccion="<%=ev.Seccion%>"
+                                        Curso="<%=ev.Curso %>">Reporte de Notas</button>
+                                <button class="btn btn-warning mr-2 btnEditarEvaluacion"
                                         idEvaluacion="<%=ev.idEvaluacion%>">Editar</button>
                                 <button class="btn btn-danger btnEliminarEvaluacion"
                                         idEvaluacion="<%=ev.idEvaluacion%>">Eliminar</button>

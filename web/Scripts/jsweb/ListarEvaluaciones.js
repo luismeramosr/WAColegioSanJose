@@ -35,3 +35,13 @@ $(document).on("click", ".btnResolverEvaluacion", (evt) => {
     sessionStorage.setItem("Seccion", Seccion);
     window.location.href = "ResolverEvaluacion.jsp";
 });
+
+$(document).on("click", ".btnGenerarReporteNotas", (evt) => {
+    let Evaluacion = evt.target.getAttribute("idEvaluacion");
+    let Seccion = evt.target.getAttribute("Seccion");
+    let Curso = evt.target.getAttribute("Curso");
+    
+    window.open("/WAColegioSanJose/ReporteNotasController?"+
+                "Evaluacion="+Evaluacion+"&Seccion="+Seccion+
+                "&Curso="+Curso);
+});

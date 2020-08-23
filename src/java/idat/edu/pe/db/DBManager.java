@@ -24,7 +24,7 @@ public class DBManager {
     private String user;
     private String password;
     private String url = "jdbc:mysql://";
-    public Connection conn = null;
+    private Connection conn = null;
 
     /**
      * Crea una nueva instancia de la base de datos, pero debes especificar el
@@ -75,6 +75,15 @@ public class DBManager {
         } catch (SQLException err) {
             // Mensaje  de error
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+        }
+    }
+    
+    public Connection getConnection() {
+        try {
+            return (Connection) DriverManager.getConnection(this.url, this.user, this.password);
+        } catch (SQLException err) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+            return null;
         }
     }
     

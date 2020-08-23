@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4299c465-d7d3-46b0-8f6c-a2c238227fd6">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4299c465-d7d3-46b0-8f6c-a2c238227fd6">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -7,17 +7,17 @@
 	<parameter name="p_curso" class="java.lang.String"/>
 	<parameter name="p_seccion" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select ax.idEvaluacion,ax.idAlumno,u.nombre,u.apellidos,u.correo,ax.nota from 
+		<![CDATA[select ax.Evaluacion,ax.Alumno,u.nombre,u.apellidos,u.correo,ax.nota from 
 AlumnoXEvaluacion ax inner join Alumno a 
-on ax.idAlumno=a.idAlumno
+on ax.Alumno=a.idAlumno
 inner join Usuario u 
 on u.idUsuario = a.Usuario 
-where ax.idEvaluacion = $P{p_idevaluacion} and ax.Seccion = $P{p_seccion} and ax.Curso =$P{p_curso} ;]]>
+where ax.Evaluacion = $P{p_idevaluacion} and ax.Seccion = $P{p_seccion} and ax.Curso =$P{p_curso} ;]]>
 	</queryString>
-	<field name="idEvaluacion" class="java.lang.Integer">
+	<field name="Evaluacion" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="idAlumno" class="java.lang.String">
+	<field name="Alumno" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="nombre" class="java.lang.String">
@@ -29,7 +29,7 @@ where ax.idEvaluacion = $P{p_idevaluacion} and ax.Seccion = $P{p_seccion} and ax
 	<field name="correo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="nota" class="java.lang.Double">
+	<field name="nota" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -122,12 +122,12 @@ where ax.idEvaluacion = $P{p_idevaluacion} and ax.Seccion = $P{p_seccion} and ax
 			<textField>
 				<reportElement x="0" y="0" width="87" height="20" uuid="fcb12694-552a-4c24-adeb-4f77b266cf56"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{idEvaluacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Evaluacion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="87" y="0" width="67" height="20" uuid="a0ca6e38-7407-46cf-a47f-e6457ae7ff1a"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{idAlumno}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Alumno}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="154" y="0" width="82" height="20" uuid="92aaee92-1eed-461a-95bf-7d220b19de5b"/>

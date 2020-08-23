@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="scriptstyle.jsp" %>
     </head>
     <body>
         <%
@@ -24,42 +24,51 @@
             <div class="card-body">                
                 <h5 class="card-title">Evaluaciones:</h5>       
                 <%
-                    List<AlumnoXEvaluacion> evaluaciones = (List<AlumnoXEvaluacion>) request.getAttribute("evaluaciones");
-                    if (user.isDocente()) {
+                    List<AlumnoXEvaluacion> resultados = (List<AlumnoXEvaluacion>) request.getAttribute("resultados");
                 %>
-                <a href="CrearEvaluacion.jsp" class="btn btn-primary">Crear evaluación</a>
-                <%}%>
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Evaluación</th>
                             <th scope="col">Curso</th>
-                            <th scope="col">Fecha límite</th>
+                            <th scope="col">Nota</th>
                                 <% if (user.isDocente()) {%>
                             <th scope="col">Mantenimiento</th>
                                 <%} else if (user.isAlumno()) {%>
-                            <th scope="col"> </th>
+                            <th scope="col">Resultados</th>
                                 <%}%>
                         </tr>
                     </thead>
                     <tbody>
-                        <%
-                            int i = 0;
-                            for (AlumnoXEvaluacion ev : evaluaciones) {
+                        <%                            
+                            for (AlumnoXEvaluacion resultado : resultados) {
                         %>
                         <tr>
-                            <td><%=ev.idEvaluacion%></td>
-                            <td><%=ev.Curso%></td>    
-                            <td><%=limitesEntrega.get(i)%></td>
-                            <td><button class="btn btn-warning mr-2 btnResolverEvaluacion"
-                                        idEvaluacion="<%=ev.idEvaluacion%>" Seccion="<%=ev.Seccion%>">Resolver</button>
+                            <td><%=resultado.Evaluacion %></td>
+                            <td><%=resultado.Curso %></td>    
+                            <td><%=resultado.nota %></td>
+                            <td><button class="btn btn-warning mr-2 btnGenerarReporteEvaluacion"
+                                        Evaluacion="<%=resultado.Evaluacion%>" Alumno="<%=resultado.Alumno%>"
+                                        Seccion="<%=resultado.Seccion%>" Curso="<%=resultado.Curso%>"
+                                        >Ver detalles</button>
                             </td>
-
                         </tr>
-                        <%
-                            i++;
+                        <%                            
                             }
                         %>
+                    <script>
+                        $(document).on("click", ".btnGenerarReporteEvaluacion", (evt) => {
+                            let Evaluacion = evt.target.getAttribute("Evaluacion");
+                            let Alumno = evt.target.getAttribute("Alumno");
+                            let Seccion = evt.target.getAttribute("Seccion");
+                            let Curso = evt.target.getAttribute("Curso");
+                            
+                            window.open("/WAColegioSanJose/ReporteEvaluacionController?"+
+                                        "Evaluacion="+Evaluacion+"&Alumno="+Alumno+
+                                        "&Seccion="+Seccion+"&Curso="+Curso);                         
+                            
+                        });
+                    </script>
                     </tbody>
                 </table>                
             </div>            

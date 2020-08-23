@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11583eec-c77e-434a-b0be-66f0a30c8038">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11583eec-c77e-434a-b0be-66f0a30c8038">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -9,20 +9,23 @@
 	<parameter name="p_seccion" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select * from AlumnoXEvaluacion 
-where idEvaluacion =$P{p_idevaluacion} and 
-idAlumno= $P{p_idalumno} and Curso=$P{p_curso} and
+where Evaluacion =$P{p_idevaluacion} and 
+Alumno= $P{p_idalumno} and Curso=$P{p_curso} and
 Seccion=$P{p_seccion};]]>
 	</queryString>
-	<field name="idAlumno" class="java.lang.String">
+	<field name="Evaluacion" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="idEvaluacion" class="java.lang.Integer">
+	<field name="Alumno" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="Seccion" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="Curso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nota" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="aciertos" class="java.lang.Integer">
@@ -35,9 +38,6 @@ Seccion=$P{p_seccion};]]>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="tiempo" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="nota" class="java.lang.Double">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -151,12 +151,12 @@ Seccion=$P{p_seccion};]]>
 			<textField>
 				<reportElement x="0" y="0" width="82" height="20" uuid="a17db6db-822a-4a5d-a276-174ca87cb5f2"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{idEvaluacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Evaluacion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="82" y="0" width="72" height="20" uuid="5e6cefe4-c9fb-4762-a3c6-8c45bea036b2"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{idAlumno}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Alumno}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="154" y="0" width="58" height="20" uuid="acb2a55b-3d19-4bd0-bf92-602a9212c7ff"/>
