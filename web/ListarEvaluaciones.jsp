@@ -18,27 +18,35 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="scriptstyle.jsp" %>
+        <script src="Scripts/jsweb/ListarEvaluaciones.js" type="text/javascript"></script>
     </head>
     <body>
         <% 
             if(session.getAttribute("user")!=null){
+            Usuario user = (Usuario) session.getAttribute("userData");
         %>
         <%@include file="navbar.jsp" %>
         <div class="card">
             <div class="card-body">                
-                <h5 class="card-title">Listado de evaluaciones:</h5>       
+                <h5 class="card-title">Evaluaciones:</h5>       
                 <%
                     List<Evaluacion> evaluaciones = (List<Evaluacion>) request.getAttribute("evaluaciones");
                     List<String> limitesEntrega = (List<String>) request.getAttribute("limitesEntrega");
+                    if (user.isDocente()){                                  
                 %>
-                <a href="CrearEvaluacionController" class="btn btn-primary">Crear evaluación</a>
+                <a href="CrearEvaluacion.jsp" class="btn btn-primary">Crear evaluación</a>
+                <%}%>
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Evaluación</th>
                             <th scope="col">Curso</th>
                             <th scope="col">Fecha límite</th>
+                            <% if (user.isDocente()) {%>
                             <th scope="col">Mantenimiento</th>
+                            <%}else if (user.isAlumno()) {%>
+                            <th scope="col"> </th>
+                            <%}%>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,43 +54,30 @@
                             int i=0;
                             for (Evaluacion ev : evaluaciones) {
                         %>
-                        <tr>
-                            <td><%=ev.idEvaluacion %></td>
-                            <td><%=ev.Curso %></td>    
-                            <td><%=limitesEntrega.get(i) %></td>    
-                            <td><button class="btn btn-warning mr-2 btnEditarEvaluacion"
+                        <tr>                              
+                            <% if (user.isDocente()) {%>
+                                <td><%=ev.idEvaluacion %></td>
+                                <td><%=ev.Curso %></td>    
+                                <td><%=limitesEntrega.get(i) %></td> 
+                                <input  type="hidden" value="<%=ev.Seccion %>" id="<%=ev.idEvaluacion %>"/>
+                                <td><button class="btn btn-warning mr-2 btnEditarEvaluacion"
                                         idEvaluacion="<%=ev.idEvaluacion%>">Editar</button>
                                 <button class="btn btn-danger btnEliminarEvaluacion"
                                         idEvaluacion="<%=ev.idEvaluacion%>">Eliminar</button>
-                            </td>
+                                </td>                            
+                            <%}else if (user.isAlumno() && ev.habilitada()) {%>
+                                <td><%=ev.idEvaluacion %></td>
+                                <td><%=ev.Curso %></td>    
+                                <td><%=limitesEntrega.get(i) %></td>
+                                <td><button class="btn btn-warning mr-2 btnResolverEvaluacion"
+                                    idEvaluacion="<%=ev.idEvaluacion%>" Seccion="<%=ev.Seccion %>">Resolver</button>
+                                </td>
+                            <%}%>
                         </tr>
                         <%
                             i++;
                             }
                         %>
-                    <script>
-                            $(document).on("click", ".btnEditarEvaluacion", (evt) => {
-                                sessionStorage.setItem("idEvaluacion", evt.target.getAttribute("idEvaluacion"));
-                                window.location.href = "EditarEvaluacion.jsp";
-                            });
-                            
-                            $(document).on("click", ".btnEliminarEvaluacion", (evt) => {
-                                let idEvaluacion = evt.target.getAttribute("idEvaluacion");
-                                fetch("/WAColegioSanJose/EditarEvaluacionController",{
-                                    method: "POST",
-                                    headers: {
-                                        "Content-type": "application/json"
-                                    },
-                                    body: JSON.stringify(idEvaluacion)
-                                }).then((response) => {
-                                    if(response.status === 200) {
-                                        window.location.href = "/WAColegioSanJose/ListarEvaluacionesController";
-                                    }            
-                                    else
-                                        alert("Ocurrio un error inesperado, intente en unos instantes");
-                                });
-                            });
-                    </script>
                     </tbody>
                 </table>                
             </div>            

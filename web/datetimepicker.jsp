@@ -5,6 +5,6 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<link href="Styles/datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+<link href="Styles/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css"/>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="Scripts/datetimepicker/jquery.datetimepicker.full.min.js" type="text/javascript"></script>
+<script src="Scripts/jquery/jquery.datetimepicker.full.min.js" type="text/javascript"></script>

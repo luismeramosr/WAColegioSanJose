@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import idat.edu.pe.db.DBManager;
 import idat.edu.pe.models.Alumno;
+import idat.edu.pe.models.Curso;
 import idat.edu.pe.models.Docente;
 import idat.edu.pe.models.Usuario;
 import java.io.IOException;
@@ -67,12 +68,16 @@ public class LoginController extends HttpServlet {
         
         if (newUser!=null) {
             if(newUser.isAlumno() && newUser.password.equals(password)) {
-                Alumno alu = db.readRow(Alumno.class, user, 0);              
+                Alumno alu = db.readRow(Alumno.class, user, 0);  
+                List<Curso> cursos = db.readTable(Curso.class, alu.Seccion, 1);
+                session.setAttribute("cursos", cursos);
                 session.setAttribute("userData", newUser);
                 session.setAttribute("user", alu);
                 return true;
             }else if(newUser.isDocente() && newUser.password.equals(password)) {
                 Docente doc = db.readRow(Docente.class, user, 0);
+                List<Curso> cursos = db.readTable(Curso.class, doc.idDocente, 2);
+                session.setAttribute("cursos", cursos);
                 session.setAttribute("userData", newUser);
                 session.setAttribute("user", doc);
                 return true;

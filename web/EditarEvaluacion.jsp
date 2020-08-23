@@ -1,5 +1,5 @@
 <%-- 
-    Document   : VerEvaluacion
+    Document   : EditarEvaluacion
     Created on : Aug 15, 2020, 4:17:55 PM
     Author     : luisr
     Author     : littman
@@ -13,11 +13,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="scriptstyle.jsp" %>
+        <%@include file="datetimepicker.jsp" %>
+        <link href="Styles/Evaluacion.css" rel="stylesheet" type="text/css"/>
         <script type="module" src="Scripts/jsweb/EditarEvaluacion.js" type="text/javascript"></script>        
     </head>
     <body>
         <% if (session.getAttribute("user") != null) {
-            List<Curso> cursos = (List<Curso>) request.getAttribute("cursos");
+            List<Curso> cursos = (List<Curso>) session.getAttribute("cursos");
         %>
         <%@include file="navbar.jsp" %>        
         <div id="Evaluacion">
@@ -47,6 +49,10 @@
                 </div>                      
             </div> 
         </div>
+        <button id="pushPregunta" class="btn btn-warning">Agregar pregunta</button>
+        <button id="popPregunta" class="btn btn-warning">Quitar pregunta</button>
+        <button id="save" class="btn btn-warning">Guardar evaluación</button>
+        <a class="btn btn-warning" href="ListarEvaluacionesController">Cancelar</button>
         <%} else {
                 response.sendRedirect("index.jsp");
             }%>

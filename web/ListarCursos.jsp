@@ -21,30 +21,29 @@
         <%@include file="navbar.jsp" %>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Listado de cursos:</h5>
+                <h5 class="card-title">Cursos:</h5>
                
                 <%
-                    List<Curso> lstcursos = (List<Curso>) request.getAttribute("lstcursos");
-            
+                    List<Curso> cursos = (List<Curso>) session.getAttribute("cursos");            
                 %>
                 
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID Curso</th>
+                            <th scope="col">Seccion</th>
                             <th scope="col">Nombre Curso</th>
-                            <th scope="col"> </th>
-                           
+                            <th scope="col"> </th>                           
                         </tr>
                     </thead>
                     <tbody>
                         <%
-                            for (Curso cur : lstcursos) {
+                            for (Curso cur : cursos) {
                         %>
                         <tr>
                             <th><%=cur.idCurso %></th>
+                            <td><%=cur.Seccion %></td>
                             <td><%=cur.nombre %></td>
-                            
                             <td><a href="ListarEvaluacionesController?idCurso=<%=cur.idCurso%>"
                                    class="btn btn-info">Ver evaluaciones</a></td>
                         </tr>

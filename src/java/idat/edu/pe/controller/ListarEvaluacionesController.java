@@ -55,7 +55,15 @@ public class ListarEvaluacionesController extends HttpServlet {
                 request.setAttribute("limitesEntrega", getDatesFromTimestamps(evaluaciones));
                 dispatcher = request.getRequestDispatcher("/ListarEvaluaciones.jsp");
                 dispatcher.forward(request, response);
-            } 
+            } else if (user.isAlumno()) {
+                Alumno alu = db.readRow(Alumno.class, user.idUsuario, 0);
+                List<Evaluacion> evaluaciones = idCurso == null ? 
+                db.readTable(Evaluacion.class, alu.Seccion, 1): evaluacionesDeCursoX(idCurso, alu.Seccion);
+                request.setAttribute("evaluaciones", evaluaciones);
+                request.setAttribute("limitesEntrega", getDatesFromTimestamps(evaluaciones));
+                dispatcher = request.getRequestDispatcher("/ListarEvaluaciones.jsp");
+                dispatcher.forward(request, response);
+            }
         }else
             response.sendRedirect("index.jsp");            
     }

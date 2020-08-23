@@ -13,7 +13,7 @@
         %>
         <%@include file="navbar.jsp" %>
         <h1>
-            Hola <%=user.nombre+" "+user.apellidos%>
+            Bienvenido <%=user.nombre+" "+user.apellidos%>
         </h1>
         <% 
         }else{

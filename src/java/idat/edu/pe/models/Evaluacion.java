@@ -30,4 +30,8 @@ public class Evaluacion {
         this.limiteEntrega = fecha_limite;
         this.data = data;
     }
+    
+    public boolean habilitada() {
+        return this.habilitado == 1 ? true:false;
+    }
 }

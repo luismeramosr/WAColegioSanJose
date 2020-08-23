@@ -24,7 +24,7 @@ public class DBManager {
     private String user;
     private String password;
     private String url = "jdbc:mysql://";
-    private Connection conn = null;
+    public Connection conn = null;
 
     /**
      * Crea una nueva instancia de la base de datos, pero debes especificar el
@@ -81,10 +81,12 @@ public class DBManager {
     private void MapValueToType(Field attribute, ResultSet reader,Object newObject){
         
         try{
-            if (attribute.getType().equals(int.class))
-                attribute.set(newObject, reader.getInt(attribute.getName()));
-            else if (attribute.getType().equals(String.class))
-                attribute.set(newObject, reader.getString(attribute.getName()));           
+//            if (attribute.getType().equals(int.class))
+//                attribute.set(newObject, reader.getInt(attribute.getName()));
+//            else if (attribute.getType().equals(String.class))
+//                attribute.set(newObject, reader.getString(attribute.getName()));   
+//            else if (attribute.getType().equals(String.class))
+                attribute.set(newObject, reader.getObject(attribute.getName(), attribute.getType()));
         }catch (SQLException | IllegalAccessException | IllegalArgumentException err) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
         }        
@@ -93,16 +95,16 @@ public class DBManager {
     private <T> String CreateSQLFromType(String actionType,Field attribute, T obj) {
         try{
             if(actionType.equals("update")) {
-                if (attribute.getType().equals(int.class))
-                return attribute.getName()+"="+attribute.get(obj)+",";
+                if (!attribute.getType().equals(String.class))
+                    return attribute.getName()+"="+attribute.get(obj)+",";
                 else if(attribute.getType().equals(String.class))
                     return attribute.getName()+"='"+attribute.get(obj)+"',";
                 else return "";
             }else if(actionType.equals("insert")){
-                if (attribute.getType().equals(int.class))
-                return attribute.get(obj)+",";
+                if (!attribute.getType().equals(String.class))
+                    return attribute.get(obj)+",";                                   
                 else if(attribute.getType().equals(String.class))
-                    return "'"+attribute.get(obj)+"',";
+                    return "'"+attribute.get(obj)+"',"; 
                 else return "";
             }
         }catch (IllegalArgumentException | IllegalAccessException err){

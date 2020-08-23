@@ -1,6 +1,6 @@
-import {NuevaEvaluacion} from './Models.js';
+import {Evaluacion_Nueva} from './Models.js';
 
-let evaluacion = new NuevaEvaluacion();
+let evaluacion = new Evaluacion_Nueva();
 
 $(document).ready(() => {
     //Agregando selector de duracion

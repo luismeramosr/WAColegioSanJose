@@ -38,21 +38,7 @@ public class CrearEvaluacionController extends HttpServlet {
     Gson gson = new Gson();
     JsonObject jo;
     HttpSession session;
-    TaskScheduler ts = new TaskScheduler();
-            
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        session = request.getSession();
-        Usuario user = (Usuario) session.getAttribute("userData");
-        if (user!=null) {
-            List<Curso> cursos = db.readTable(Curso.class, user.idUsuario, 2);
-            request.setAttribute("cursos", cursos);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("CrearEvaluacion.jsp");
-            dispatcher.forward(request, response);
-        }else
-            response.sendRedirect("index.jsp");        
-    }
+    TaskScheduler ts = new TaskScheduler();           
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -63,7 +49,6 @@ public class CrearEvaluacionController extends HttpServlet {
         int duracion = jo.get("duracion").getAsInt();
         int limiteEntrega = jo.get("limiteEntrega").getAsInt();
         int currentTime = Math.round(new Date().getTime()/1000);
-        System.out.println(limiteEntrega-currentTime);
         Evaluacion newev = new Evaluacion(getNewEvaluacionID(), curso.Seccion, 
                                 curso.idCurso, 1, duracion, limiteEntrega, newEvData);        
         db.insertRow(newev);
@@ -71,8 +56,7 @@ public class CrearEvaluacionController extends HttpServlet {
             @Override
             public void run() {
                 newev.habilitado=0;
-                db.updateRow(newev);
-                System.out.println("Deshabilitando evaluacion: "+newev.idEvaluacion);                
+                db.updateRow(newev);           
             }
         }, limiteEntrega-currentTime);
     }

@@ -1,5 +1,6 @@
-export class Evaluacion {
+export class Evaluacion_Calificable {
     constructor() {
+        this.id;
         this.preguntas = [];
         this.element = document.getElementById("Evaluacion");
         this.title;
@@ -8,18 +9,109 @@ export class Evaluacion {
     }
     
     pushPregunta({id, numero, contenido}) {
-        this.preguntas.push(Object.assign(new Pregunta(), {id, numero, contenido}));
-    }
+        this.preguntas.push(Object.assign(new Pregunta_Calificable(), {id, numero, contenido}));
+    }    
 }
 
-class Pregunta {
+class Pregunta_Calificable {
     constructor() {
         this.id;
         this.numero;
         this.contenido;
         this.evaluacion = document.getElementById("Evaluacion");
         this.alternativas = [];
-        this.element;                      
+        this.textElement;                      
+    }   
+    
+    pushToDOM() {
+        let newPregunta = document.createElement('div');
+        newPregunta.id = this.id;    
+        newPregunta.innerHTML = `    
+        <div class="card">
+            <div class="card-body">
+                <span class="card-title"><strong>Pregunta Nro ${this.numero}:</strong> ${this.contenido}</span>
+                <div class="mt-3" id="alternativas${this.id}">                    
+                </div>
+            </div>            
+        </div>`;
+        this.evaluacion.appendChild(newPregunta);
+        this.textElement = document.getElementById(`${this.id}data`);
+    }
+    
+    pushAlternativa({id, numero, contenido, pregunta}) {
+        this.alternativas.push(Object.assign(new Alternativa_Calificable(), {id, numero, contenido, pregunta}));
+    }   
+}
+
+class Alternativa_Calificable {
+    constructor() {
+        this.id;
+        this.numero;
+        this.contenido;
+        this.pregunta;
+        this.isSelected;
+        this.textElement;
+        this.boolElement;
+    }
+    
+    pushToDOM() {        
+        let newAlternativa = document.createElement('div');        
+        newAlternativa.id = this.id;     
+        newAlternativa.innerHTML = `
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Radio button" id="${this.id}bool" 
+                    name="group${this.pregunta}" class="alt">
+                </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input"
+            id="${this.id}text" value="${this.contenido}" disabled>
+        </div></br>`;
+        let container = document.getElementById(`alternativas${this.pregunta}`);
+        container.appendChild(newAlternativa);
+        this.boolElement = document.getElementById(`${this.id}bool`);
+        this.textElement = document.getElementById(`${this.id}text`); 
+    }    
+}
+
+export class Evaluacion_Editable {
+    constructor() {
+        this.id;
+        this.preguntas = [];
+        this.element = document.getElementById("Evaluacion");
+        this.title;
+        this.duracion;
+        this.limiteEntrega;
+    }
+    
+    pushPregunta({id, numero, contenido}) {
+        this.preguntas.push(Object.assign(new Pregunta_Editable(), {id, numero, contenido}));
+    }
+    
+    popPregunta() {
+        if(this.preguntas.length>=1){
+            let deleted = this.preguntas.pop();
+            this.element.removeChild(document.getElementById(deleted.id));
+        }else {
+            alert("No hay preguntas que eliminar.");
+        }
+    }
+    
+    pushNuevaPregunta() {
+        this.preguntas.push(new Pregunta_Nueva(this.preguntas.length+1));
+    }  
+    
+}
+
+class Pregunta_Editable {
+    constructor() {
+        this.id;
+        this.numero;
+        this.contenido;
+        this.evaluacion = document.getElementById("Evaluacion");
+        this.alternativas = [];
+        this.textElement;                      
     }   
     
     pushToDOM() {
@@ -41,20 +133,36 @@ class Pregunta {
             </div>            
         </div>`;
         this.evaluacion.appendChild(newPregunta);
+        this.textElement = document.getElementById(`${this.id}data`);
     }
     
     pushAlternativa(alternativaData) {
-        this.alternativas.push(Object.assign(new Alternativa(), alternativaData));
+        this.alternativas.push(Object.assign(new Alternativa_Editable(), alternativaData));
+    }
+    
+    popAlternativa() {
+        if(this.alternativas.length>=1) {
+            let deleted = this.alternativas.pop();
+            let pregunta = document.getElementById(`alternativas${this.id}`);
+            pregunta.removeChild(document.getElementById(deleted.id));
+        }else 
+            alert("No hay alternativas para eliminar.");
+    }
+    
+    pushNuevaAlternativa() {
+        this.alternativas.push(new Alternativa_Nueva(this.alternativas.length+1, this.id));
     }
 }
 
-class Alternativa {
+class Alternativa_Editable {
     constructor() {
         this.id;
         this.numero;
         this.contenido;
         this.pregunta;
         this.isSelected;
+        this.textElement;
+        this.boolElement;
     }
     
     pushToDOM() {        
@@ -73,17 +181,17 @@ class Alternativa {
         </div></br>`;
         let container = document.getElementById(`alternativas${this.pregunta}`);
         container.appendChild(newAlternativa);
-        let boolElement = document.getElementById(`${this.id}bool`);
-        boolElement.checked = this.isSelected;
+        this.boolElement = document.getElementById(`${this.id}bool`);
+        this.boolElement.checked = this.isSelected;
+        this.textElement = document.getElementById(`${this.id}text`); 
     }
     
 }
 
-export class NuevaEvaluacion {
+export class Evaluacion_Nueva {
     constructor() {
         this.preguntas = [];
-        this.preguntasCount = 1;
-        this.preguntas.push(new NuevaPregunta(1));
+        this.preguntas.push(new Pregunta_Nueva(1));
         this.element = document.getElementById("Evaluacion");
         this.title;
         this.duracion;
@@ -91,14 +199,11 @@ export class NuevaEvaluacion {
     }
 
     pushPregunta() {
-        this.preguntasCount++;
-        let newID = `p${this.preguntasCount}`;
-        this.preguntas.push(new NuevaPregunta(this.preguntasCount));
+        this.preguntas.push(new Pregunta_Nueva(this.preguntas.length+1));
     }
 
     popPregunta() {
-        if (this.preguntasCount >= 1) {
-            this.preguntasCount--;
+        if (this.preguntas.length >= 1) {
             let deleted = this.preguntas.pop();
             let pregunta = document.getElementById(deleted.id);
             this.element.removeChild(pregunta);
@@ -107,12 +212,11 @@ export class NuevaEvaluacion {
     }
 }
 
-class NuevaPregunta {
+class Pregunta_Nueva {
     constructor(numero) {
         this.id = `p${numero}`;
         this.numero = numero;
         this.contenido = "";
-        this.alternativasCount=3;
         this.evaluacion = document.getElementById("Evaluacion");
         this.template = `    
         <div class="card">
@@ -133,20 +237,18 @@ class NuevaPregunta {
         this.textElement = document.getElementById(`${this.id}data`);
         this.alternativasContainer = document.getElementById(`alternativas${this.id}`);
         this.alternativas = [
-            new NuevaAlternativa(1, this.id),
-            new NuevaAlternativa(2, this.id),
-            new NuevaAlternativa(3, this.id)
+            new Alternativa_Nueva(1, this.id),
+            new Alternativa_Nueva(2, this.id),
+            new Alternativa_Nueva(3, this.id)
         ];
     }     
     
     pushAlternativa() {
-        this.alternativasCount++;
-        this.alternativas.push(new NuevaAlternativa(this.alternativasCount, this.id));
+        this.alternativas.push(new Alternativa_Nueva(this.alternativas.length+1, this.id));
     }
     
     popAlternativa() {
-        if(this.alternativasCount >=1){
-            this.alternativasCount--;
+        if(this.alternativas.length >=1){
             let deleted = this.alternativas.pop();
             let alternativa = document.getElementById(deleted.id);
             this.alternativasContainer.removeChild(alternativa);
@@ -162,7 +264,7 @@ class NuevaPregunta {
     }
 }
 
-class NuevaAlternativa { 
+class Alternativa_Nueva { 
     constructor(numero, idPregunta) {
         this.id = `${idPregunta}alt${numero}`;
         this.numero = numero;

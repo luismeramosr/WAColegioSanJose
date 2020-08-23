@@ -5,11 +5,8 @@
  */
 package idat.edu.pe.controller;
 
-import idat.edu.pe.scheduler.Task;
-import idat.edu.pe.scheduler.TaskScheduler;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.Callable;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,28 +17,26 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author luisr
  */
-@WebServlet(name = "TestController", urlPatterns = {"/TestController"})
-public class TestController extends HttpServlet {
+@WebServlet(name = "ListarEvaluacionesResueltasController", urlPatterns = {"/ListarEvaluacionesResueltasController"})
+public class ListarEvaluacionesResueltasController extends HttpServlet {
 
-    TaskScheduler ts = new TaskScheduler();
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {        
-        ts.scheduleTask(new Task() {
-            @Override
-            public void run() {
-                //asdad
-            }
-        }, 3);
+            throws ServletException, IOException {
+        
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

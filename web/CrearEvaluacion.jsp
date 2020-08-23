@@ -15,13 +15,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="scriptstyle.jsp" %>
         <%@include file="datetimepicker.jsp" %>
-        <link href="Styles/crearEvaluacion.css" rel="stylesheet" type="text/css"/>      
-        <script type="module" src="Scripts/jsweb/crearEvaluacion.js" type="text/javascript"></script>
+        <link href="Styles/Evaluacion.css" rel="stylesheet" type="text/css"/>      
+        <script type="module" src="Scripts/jsweb/CrearEvaluacion.js" type="text/javascript"></script>
     </head>
     <body>
         <% 
             if(session.getAttribute("user")!=null){
-            List<Curso> cursos = (List<Curso>)request.getAttribute("cursos");
+            List<Curso> cursos = (List<Curso>) session.getAttribute("cursos");
         %>
         <%@include file="navbar.jsp" %>           
         <div id="Evaluacion">    
