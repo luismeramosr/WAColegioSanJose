@@ -10,6 +10,7 @@ package idat.edu.pe.models;
  * @author luisr
  */
 public class AlumnoXEvaluacion {
+    
     public int Evaluacion;
     public String Alumno;
     public String Seccion;
@@ -19,4 +20,20 @@ public class AlumnoXEvaluacion {
     public int errores;
     public int preguntas;
     public String tiempo;
+    
+    public AlumnoXEvaluacion() {
+    }
+
+    public AlumnoXEvaluacion(int Evaluacion, String Alumno, String Seccion, String Curso, Double nota, int aciertos, int errores, int preguntas, String tiempo) {
+        this.Evaluacion = Evaluacion;
+        this.Alumno = Alumno;
+        this.Seccion = Seccion;
+        this.Curso = Curso;
+        this.nota = nota;
+        this.aciertos = aciertos;
+        this.errores = errores;
+        this.preguntas = preguntas;
+        this.tiempo = tiempo;
+    }  
+    
 }

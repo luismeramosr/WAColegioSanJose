@@ -9,7 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import idat.edu.pe.db.DBManager;
+import idat.edu.pe.models.AlumnoXEvaluacion;
 import idat.edu.pe.models.Evaluacion;
 import idat.edu.pe.scheduler.TaskScheduler;
 import java.io.IOException;
@@ -70,7 +72,18 @@ public class ResolverEvaluacionController extends HttpServlet {
             }
         }        
         errores = preguntas.size() - aciertos;
+        AlumnoXEvaluacion resultado = new AlumnoXEvaluacion(evaluacionOriginal.idEvaluacion,
+                                            evResuelta.get("alumno").getAsString(), 
+                                            evResuelta.get("seccion").getAsString(), 
+                                            evResuelta.get("curso").getAsString(), 
+                                            this.nota, this.aciertos, this.errores, 
+                                            preguntas.size(), evResuelta.get("tiempo").getAsString());
         
+        if(db.insertRow(resultado)) {
+            response.setStatus(200);
+        }else{
+            response.setStatus(500);
+        }
     }
     
     private Double nota=0.0;

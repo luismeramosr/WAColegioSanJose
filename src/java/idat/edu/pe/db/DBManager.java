@@ -263,7 +263,7 @@ public class DBManager {
      * @param <T>
      * @param object
      */
-    public <T> void insertRow(T obj) {
+    public <T> boolean insertRow(T obj) {
         Field[] attributes = obj.getClass().getFields();
         String tb = obj.getClass().getSimpleName();
         String query = "insert into " + tb+ " (";
@@ -283,8 +283,10 @@ public class DBManager {
             Statement smt = this.conn.createStatement();
             smt.executeUpdate(query);
             close();
+            return true;
         }catch(SQLException err){
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+            return false;
         }        
     }
 
@@ -293,7 +295,7 @@ public class DBManager {
      * @param <T>
      * @param object
      */
-    public <T> void updateRow(T obj){
+    public <T> boolean updateRow(T obj){
         Field[] attributes= obj.getClass().getFields();
         String tb = obj.getClass().getSimpleName();
         String query ="update "+tb+" set " ;
@@ -308,8 +310,10 @@ public class DBManager {
             Statement objsql = this.conn.createStatement();
             objsql.executeUpdate(query);
             close();
+            return true;
         } catch (IllegalArgumentException | IllegalAccessException | SQLException err) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, err);
+            return false;
         }       
     }
 

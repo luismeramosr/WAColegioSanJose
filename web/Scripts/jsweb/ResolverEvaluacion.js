@@ -50,7 +50,6 @@ $(document).ready(() => {
 $(document).on("click","#enviarEvaluacion", () => {
     guardarRespuestas();
     post("/WAColegioSanJose/ResolverEvaluacionController", formatEvaluacion(evaluacion));
-    redirect("ListarEvaluacionesResueltasController");
 });
 
 function guardarRespuestas() {
@@ -93,7 +92,10 @@ function post(url, evaluacion) {
         body: JSON.stringify(evaluacion)
     }).then((response) => {
         if(response.status === 200) {
-//            redirect("/WAColegioSanJose/ListarEvaluacionesResueltasController");            
+            redirect("/WAColegioSanJose/ListarEvaluacionesResueltasController");            
+        }else if(response.status ===500) {
+            alert("Ya has entregado tu evaluación");
+            redirect("/WAColegioSanJose/ListarEvaluacionesResueltasController");
         }            
         else
             alert("Ocurrio un error inesperado, intente en unos instantes");

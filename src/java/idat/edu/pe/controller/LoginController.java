@@ -51,7 +51,7 @@ public class LoginController extends HttpServlet {
 
         jo = gson.fromJson(request.getReader(), JsonObject.class);
         String user = jo.get("user").getAsString();
-        String password = jo.get("password").getAsString();
+        String password = jo.get("password").getAsString();        
         session = request.getSession();
         
         if(login(user, password))
