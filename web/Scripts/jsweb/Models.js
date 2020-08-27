@@ -137,7 +137,11 @@ class Pregunta_Editable {
     }
     
     pushAlternativa(alternativaData) {
-        this.alternativas.push(Object.assign(new Alternativa_Editable(), alternativaData));
+        if(alternativaData){
+            this.alternativas.push(Object.assign(new Alternativa_Editable(), alternativaData));
+        }else{
+            this.alternativas.push(new Alternativa_Nueva(this.alternativas.length+1, this.id));
+        }
     }
     
     popAlternativa() {
@@ -149,9 +153,6 @@ class Pregunta_Editable {
             alert("No hay alternativas para eliminar.");
     }
     
-    pushNuevaAlternativa() {
-        this.alternativas.push(new Alternativa_Nueva(this.alternativas.length+1, this.id));
-    }
 }
 
 class Alternativa_Editable {

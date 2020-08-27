@@ -63,7 +63,7 @@ $(document).on("click", "#popPregunta", () => {
 $(document).on("click",".pushAlt", (evt) => {    
     let idPregunta = evt.target.id.substring(7);
     let pregunta = evaluacion.preguntas.find(pregunta => pregunta.id == idPregunta);    
-    pregunta.pushNuevaAlternativa();
+    pregunta.pushAlternativa();
 });
 
 $(document).on("click",".popAlt", (evt) => {

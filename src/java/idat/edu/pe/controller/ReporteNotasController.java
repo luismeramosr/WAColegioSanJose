@@ -29,18 +29,8 @@ import net.sf.jasperreports.engine.JasperRunManager;
 @WebServlet(name = "ReporteNotasController", urlPatterns = {"/ReporteNotasController"})
 public class ReporteNotasController extends HttpServlet {
 
-//    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
-    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,14 +53,6 @@ public class ReporteNotasController extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

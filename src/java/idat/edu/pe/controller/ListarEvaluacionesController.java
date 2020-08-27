@@ -34,9 +34,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ListarEvaluacionesController", urlPatterns = {"/ListarEvaluacionesController"})
 public class ListarEvaluacionesController extends HttpServlet {
     
-    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
-//    DBManager db= new DBManager("localhost","3306","root","123","apolloma_Colegio");
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
+//    DBManager db = new DBManager("sql10.freemysqlhosting.net", "sql10361956", "RzbDSJcgJp", "sql10361956");
     HttpSession session;
     RequestDispatcher dispatcher;
             

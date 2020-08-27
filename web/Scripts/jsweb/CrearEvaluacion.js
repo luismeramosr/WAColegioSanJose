@@ -10,8 +10,7 @@ $(document).ready(() => {
         format: 'H:i',
         hours12: false,
         value: '00:00',
-        step: 15,
-        scroll: false
+        step: 15        
     });
     //Agregando selector de hora y fecha
     $('#limitePicker').datetimepicker({

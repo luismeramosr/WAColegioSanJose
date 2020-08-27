@@ -30,9 +30,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
     
-    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
-//    DBManager db = new DBManager("localhost", "root", "123", "apolloma_Colegio");
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");    
+//    DBManager db = new DBManager("sql10.freemysqlhosting.net", "sql10361956", "RzbDSJcgJp", "sql10361956");
     Gson gson = new Gson();
     JsonObject jo;
     HttpSession session;    
@@ -59,7 +58,7 @@ public class LoginController extends HttpServlet {
             // User exists and has logged in
             response.setStatus(200);
         else
-            // User was not found or doesn't
+            // User was not found or doesn't exist
             response.setStatus(500);            
         
     }       

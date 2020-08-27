@@ -32,8 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ResolverEvaluacionController", urlPatterns = {"/ResolverEvaluacionController"})
 public class ResolverEvaluacionController extends HttpServlet {
     
-    //DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
-    DBManager db = new DBManager("192.168.1.100", "root", "123", "apolloma_Colegio");
+    DBManager db = new DBManager("gator4125.hostgator.com", "apolloma_root", "!Rg[5b1mzuOV", "apolloma_Colegio");
     Gson gson = new Gson();
     JsonObject jo = new JsonObject();
     TaskScheduler ts = new TaskScheduler();
