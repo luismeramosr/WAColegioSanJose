@@ -1,11 +1,11 @@
 Proyecto San Jose Readme
 
 # Proyecto colegio San Jose
-<div style="text-align:center">
+<p align="center">
 <a href="http://www.colegioparroquialsanjose.edu.pe/">
 <img src="http://www.colegioparroquialsanjose.edu.pe/images/img-presentacion.png"/>
 </a>
-</div>
+</p>
 
 ## Proyecto de 3er ciclo para el curso:
 - Desarrollo avanzado de aplicaciones 1.
@@ -18,7 +18,7 @@ Proyecto San Jose Readme
 </p>
 
 **Vista previa**
-![sanjose.gif](https://github.com/luismeramosr/ColegioSanJose/blob/master/ColegioSanJose/Resources/ProyectoColegioSanJose.gif?raw=true)
+![sanjose.gif](https://github.com/luismeramosr/WAColegioSanJose/blob/master/ColegioSanJose/sanjose.gif?raw=true)
 
 
 ## Tabla de contenidos
