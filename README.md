@@ -18,7 +18,7 @@ Proyecto San Jose Readme
 </p>
 
 **Vista previa**
-![sanjose.gif](https://github.com/luismeramosr/WAColegioSanJose/blob/master/ColegioSanJose/sanjose.gif?raw=true)
+![sanjose.gif](https://github.com/luismeramosr/WAColegioSanJose/blob/master/sanjose.gif)
 
 
 ## Tabla de contenidos
